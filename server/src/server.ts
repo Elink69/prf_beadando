@@ -1,15 +1,15 @@
 import * as dotenv from "dotenv";
-import * as mappers from "./app/mappers/mapper";
+import * as mappers from "./application/mappers/mapper";
 import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import expressSession from "express-session";
 import passport from "passport";
-import { connectToDatabase } from "./app/dbContext/dbContext";
-import { configureUserRoutes } from "./app/controllers/user.controller";
-import { configurePassport } from "./app/auth/auth";
+import { connectToDatabase } from "./application/dbContext/dbContext";
+import { configureUserRoutes } from "./application/controllers/user.controller";
+import { configurePassport } from "./application/auth/auth";
 import bodyParser from "body-parser";
-import { configureCourseRoutes } from "./app/controllers/course.controller";
+import { configureCourseRoutes } from "./application/controllers/course.controller";
 
 dotenv.config();
 
