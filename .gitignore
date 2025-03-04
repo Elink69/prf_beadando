@@ -4,7 +4,7 @@
 ### Angular ###
 ## Angular ##
 # compiled output
-/build
+**/build
 /tmp
 /app/**/*.js
 /app/**/*.js.map
