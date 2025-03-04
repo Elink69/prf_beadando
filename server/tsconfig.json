@@ -1,0 +1,15 @@
+{
+    "include": ["src/**/*", "usersController.ts", "dbContext.ts", "dbCollections.ts", "userRoles.ts"],
+    "compilerOptions": {
+      "target": "es2016",
+      "module": "commonjs",
+      "esModuleInterop": true,  
+      "forceConsistentCasingInFileNames": true,
+      "strict": true,    
+      "skipLibCheck": true,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "strictPropertyInitialization": false,
+      "outDir": "./dist"
+    }
+  }
