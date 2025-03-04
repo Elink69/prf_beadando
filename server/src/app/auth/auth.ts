@@ -29,7 +29,10 @@ export const configurePassport = (passport: PassportStatic): PassportStatic => {
     return passport;
 }
 
-export const extractUserRole = (req: Request): UserRoles => {
-    const user = req.user as User
-    return user.role;
+export const checkUserRole = (req: Request, minRole: UserRoles): boolean => {
+    const user = req.user as User;
+    if (!user){
+        return false;
+    }
+    return user.role <= minRole;
 }
