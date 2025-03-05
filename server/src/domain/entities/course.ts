@@ -3,6 +3,9 @@ import { AutoMap } from "@automapper/classes";
 
 export class Course{
     @AutoMap()
+    courseId: string;
+
+    @AutoMap()
     name: string;
 
     @AutoMap()
@@ -27,6 +30,7 @@ export const courseJsonSchema = {
     $jsonSchema: {
         bsonType: "object",
         required: [
+            "courseId",
             "name",
             "description",
             "schedule", 
@@ -37,6 +41,9 @@ export const courseJsonSchema = {
         additionalProperties: false,
         properties: {
             _id: {},
+            courseId: {
+                bsonType: "string"
+            },
             name: {
                 bsonType: "string",
             },

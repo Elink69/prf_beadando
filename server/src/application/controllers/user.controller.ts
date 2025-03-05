@@ -7,8 +7,6 @@ import { UserCreationDto } from "../dtos/userCreationDto";
 export const configureUserRoutes = (
     passport: PassportStatic,
     userRouter: Router): Router => {
-        
-        userRouter.use(json());
 
         userRouter.get("/", async (_req: Request, res: Response): Promise<any> => {
             try {

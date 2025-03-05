@@ -32,6 +32,7 @@ connectToDatabase(DB_URI)
         app.use(cors());
         
         app.use(bodyParser.urlencoded({extended: true}))
+        app.use(bodyParser.json())
 
         app.use(cookieParser());
 
@@ -46,7 +47,7 @@ connectToDatabase(DB_URI)
 
         configurePassport(passport);
         app.use("/users", configureUserRoutes(passport, express.Router()));
-        app.use("/courses", configureCourseRoutes(passport, express.Router()))
+        app.use("/courses", configureCourseRoutes(express.Router()))
         app.listen(12212, () => {
             console.log(`Server running on http://localhost:12212`);
         });
