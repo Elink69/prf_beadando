@@ -1,4 +1,5 @@
 export enum DbCollections {
     Users = "users",
-    Courses = "courses"
+    Courses = "courses",
+    PickedCourses = "picked_courses"
 }

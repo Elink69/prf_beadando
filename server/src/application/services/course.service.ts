@@ -1,4 +1,3 @@
-import { CursorFlag } from "mongodb";
 import { Course } from "../../domain/entities/course"
 import { UserRoles } from "../../domain/enums/userRoles";
 import { collections } from "../dbContext/dbContext";
@@ -9,6 +8,11 @@ import { mapper } from "../mappers/mapper";
 
 export const getCoursesAsync = async (): Promise<CourseDetailsDto[]> => {
     const courses = await collections?.courses?.find({}).toArray() as Course[];
+    return await mapper.mapArrayAsync(courses, Course, CourseDetailsDto);
+}
+
+export const getActiveCoursesAsync = async (): Promise<CourseDetailsDto[]> => {
+    const courses = await collections?.courses?.find({isActive: true}).toArray() as Course[];
     return await mapper.mapArrayAsync(courses, Course, CourseDetailsDto);
 }
 

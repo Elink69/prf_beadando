@@ -40,7 +40,7 @@ export const configureUserRoutes = (
                     return res.status(500).send("Failed to create new user");
                 }
             } catch (error) {
-                return res.status(400).send(error instanceof Error ? error.message: "Unknown error");
+                return res.status(500).send(error instanceof Error ? error.message: "Unknown error");
             }
         });
 
@@ -92,7 +92,7 @@ export const configureUserRoutes = (
                     return res.status(500).send("Internal Server Error");
                 }
             } catch (error) {
-                return res.status(400).send(error instanceof Error? error.message: "Unknown error");
+                return res.status(500).send(error instanceof Error? error.message: "Unknown error");
             }
         });
 

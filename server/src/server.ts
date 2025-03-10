@@ -10,6 +10,7 @@ import { configureUserRoutes } from "./application/controllers/user.controller";
 import { configurePassport } from "./application/auth/auth";
 import bodyParser from "body-parser";
 import { configureCourseRoutes } from "./application/controllers/course.controller";
+import { configurePickCourseRouter } from "./application/controllers/pickCourse.controller";
 
 dotenv.config();
 
@@ -47,7 +48,8 @@ connectToDatabase(DB_URI)
 
         configurePassport(passport);
         app.use("/users", configureUserRoutes(passport, express.Router()));
-        app.use("/courses", configureCourseRoutes(express.Router()))
+        app.use("/courses", configureCourseRoutes(express.Router()));
+        app.use("/pickCourse", configurePickCourseRouter(express.Router()));
         app.listen(12212, () => {
             console.log(`Server running on http://localhost:12212`);
         });

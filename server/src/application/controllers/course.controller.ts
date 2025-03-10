@@ -23,6 +23,19 @@ export const configureCourseRoutes = (
 
         });
 
+        courseRouter.get("/active", async (req: Request, res: Response): Promise<any> => {
+            if(!req.isAuthenticated()){
+                return res.status(401).send("You must be logged in to access that");
+            }
+
+            try{
+                const courses = await courseService.getActiveCoursesAsync();
+                return res.status(200).send(courses);
+            } catch (error) {
+                return res.status(500).send(error instanceof Error? error.message: "Unknown error");
+            }
+        });
+
         courseRouter.get("/:courseId", async (req: Request, res: Response): Promise<any> => {
             if(!req.isAuthenticated()){
                 return res.status(401).send("You must be logged in to access that");
@@ -60,7 +73,7 @@ export const configureCourseRoutes = (
                     return res.status(201).send("Created new course");
                 }
             } catch (error) {
-                return res.status(400).send(error instanceof Error ? error.message : "Unknown error");
+                return res.status(500).send(error instanceof Error ? error.message : "Unknown error");
             }
         });
 
@@ -91,7 +104,7 @@ export const configureCourseRoutes = (
                 await courseService.updateCourseAsync(courseUpdate, courseId);
                 return res.status(200).send("Course modified")  
             } catch (error) {
-                return res.status(400).send(error instanceof Error ? error.message: "Unknown error");
+                return res.status(500).send(error instanceof Error ? error.message: "Unknown error");
             }
                 
         });
@@ -121,7 +134,7 @@ export const configureCourseRoutes = (
                     return res.status(500).send("Internal Server Error");
                 };
             } catch (error){
-                return res.status(400).send(error instanceof Error? error.message: "Unknown error");
+                return res.status(500).send(error instanceof Error? error.message: "Unknown error");
             }
         });
 
