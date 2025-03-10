@@ -37,7 +37,7 @@ export const configureCourseRoutes = (
             }
         });
 
-        courseRouter.post("/create", async (req: Request, res: Response): Promise<any> => {
+        courseRouter.post("/", async (req: Request, res: Response): Promise<any> => {
             if(!req.isAuthenticated()){
                 return res.status(401).send("You must be logged in to access that");
             }
@@ -94,6 +94,35 @@ export const configureCourseRoutes = (
                 return res.status(400).send(error instanceof Error ? error.message: "Unknown error");
             }
                 
+        });
+
+        courseRouter.delete("/:courseId", async (req: Request, res: Response): Promise<any> => {
+            if(!req.isAuthenticated()){
+                return res.status(401).send("You must be logged in to access that");
+            }
+            if(!checkUserRole(req, UserRoles.Teacher)){
+                return res.status(403).send("You don't have permission to access that");
+            }
+
+            const courseId = req?.params?.courseId;
+
+            const courseToDelete = await courseService.getCourseByIdAsync(courseId);
+            const currentUser = req.user as User
+
+            if(!checkUserRole(req, UserRoles.Admin) && currentUser.name !== courseToDelete.teacherName){
+                return res.status(403).send("Teachers can only delete their own courses");
+            }
+
+            try{
+                if(await courseService.deleteCourseAsync(courseId)){
+                    return res.status(200).send("Course deleted");
+                }
+                else{
+                    return res.status(500).send("Internal Server Error");
+                };
+            } catch (error){
+                return res.status(400).send(error instanceof Error? error.message: "Unknown error");
+            }
         });
 
         return courseRouter;

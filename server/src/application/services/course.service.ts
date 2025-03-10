@@ -41,9 +41,10 @@ export const createCourseAsync = async (courseDto: CourseCreationDto, role: User
 
     const insertResult = await collections?.courses?.insertOne(newCourse);
 
-    if (!insertResult){       
-        return false;
-    } else {
-        return insertResult.acknowledged;
-    }
+    return !!insertResult;
 }
+
+export const deleteCourseAsync = async (courseId: string): Promise<boolean> => {
+    const deleteResult = await collections?.courses?.deleteOne({courseId: courseId})
+    return !!deleteResult
+};

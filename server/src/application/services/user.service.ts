@@ -16,18 +16,19 @@ export const getUserByEmailAsync = async (userEmail: string): Promise<UserDetail
 }
 
 export const createUserAsync = async (userData: UserCreationDto): Promise<boolean> => {
-        const newUser = await mapper.mapAsync(userData, UserCreationDto, User)
-        
-        //TODO encrypt password
-        newUser.password = userData.password;
-        //TODO
+    const newUser = await mapper.mapAsync(userData, UserCreationDto, User)
+    
+    //TODO encrypt password
+    newUser.password = userData.password;
+    //TODO
 
-        newUser.createdOn = new Date();
-        const insertResult = await collections?.users?.insertOne(newUser);
-        
-        if (!insertResult){       
-            return false;
-        } else {
-            return insertResult.acknowledged;
-        }
+    newUser.createdOn = new Date();
+    const insertResult = await collections?.users?.insertOne(newUser);
+    
+    return !!insertResult
+}
+
+export const deleteUserAsync = async (userEmail: string): Promise<boolean> => {
+    const deleteResult = collections?.users?.deleteOne({email: userEmail})
+    return !!deleteResult;
 }

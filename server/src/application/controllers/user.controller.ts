@@ -1,8 +1,10 @@
 import { Router, Request, Response, NextFunction, json } from "express";
 import * as userService from "../services/user.service";
 import { PassportStatic } from "passport";
-import { User } from "../../domain/entities/user";
+import { User, userJsonSchema } from "../../domain/entities/user";
 import { UserCreationDto } from "../dtos/userCreationDto";
+import { checkUserRole } from "../auth/auth";
+import { UserRoles } from "../../domain/enums/userRoles";
 
 export const configureUserRoutes = (
     passport: PassportStatic,
@@ -69,7 +71,28 @@ export const configureUserRoutes = (
                     return res.status(200).send("Succesfully logged out.");
                 });
             } else {
-                return res.status(500).send("User is not logged in.");
+                return res.status(401).send("User is not logged in.");
+            }
+        });
+
+        userRouter.delete("/:userEmail", async (req: Request, res: Response): Promise<any> => {
+            if (!req.isAuthenticated()){
+                return res.status(401).send("You must be logged in to access that");
+            };
+            if(!checkUserRole(req, UserRoles.Admin)){
+                return res.status(403).send("You don't have permission to access that");
+            };
+            
+            const userEmail = req?.params?.userEmail;
+
+            try{
+                if(await userService.deleteUserAsync(userEmail)){
+                    return res.status(200).send("User deleted");
+                } else {
+                    return res.status(500).send("Internal Server Error");
+                }
+            } catch (error) {
+                return res.status(400).send(error instanceof Error? error.message: "Unknown error");
             }
         });
 
