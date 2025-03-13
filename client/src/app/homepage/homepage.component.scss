@@ -1,0 +1,19 @@
+mat-sidenav-container{
+    height: 100%;
+}
+
+mat-sidenav{
+    user-select: none;
+    width: fit-content;
+    min-width: 15rem;
+}
+
+mat-sidenav-content{
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+mat-toolbar > span{
+    margin-left: 1rem;
+}

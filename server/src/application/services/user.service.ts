@@ -17,6 +17,13 @@ export const getUserByEmailAsync = async (userEmail: string): Promise<UserDetail
 
 export const createUserAsync = async (userData: UserCreationDto): Promise<boolean> => {
     const newUser = await mapper.mapAsync(userData, UserCreationDto, User)
+
+    const query = { email: newUser.email };
+    const user = await collections.users?.findOne(query);
+
+    if(user){
+        throw new Error("User already exists.");
+    }
     
     //TODO encrypt password
     newUser.password = userData.password;

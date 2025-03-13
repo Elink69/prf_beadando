@@ -1,0 +1,59 @@
+:host {
+  display: flex;
+  justify-content: center;
+  margin: 100px 0px;
+}
+
+.error {
+  padding: 16px;
+  width: 300px;
+  color: white;
+  background-color: crimson;
+}
+
+mat-form-field {
+  width: 100%;
+  min-width: 25rem;    
+  padding-bottom: 0.4rem;
+}
+
+mat-card-title {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+mat-card-content {
+  display: flex;
+  justify-content: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.submitbutton {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitbutton > button {
+  width: 12rem;
+  font-size: medium;
+}
+
+.registerbutton {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.registerbutton > button {
+  width: 12rem;
+  font-size: medium;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}

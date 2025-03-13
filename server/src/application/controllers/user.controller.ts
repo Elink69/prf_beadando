@@ -10,22 +10,36 @@ export const configureUserRoutes = (
     passport: PassportStatic,
     userRouter: Router): Router => {
 
-        userRouter.get("/", async (_req: Request, res: Response): Promise<any> => {
+        userRouter.get("/", async (req: Request, res: Response): Promise<any> => {
+            if(!req.isAuthenticated()){
+                return res.status(401).send({error:"You must be logged in to access that"});
+            }
             try {
                 const users = await userService.getUsersAsync();
                 return res.status(200).send(users);
             } catch (error) {
-                return res.status(500).send(error instanceof Error ? error.message: "Unknown error");
+                return res.status(500).send(error instanceof Error ? {error: error.message}: {error: "Unknown error"});
+            }
+        });
+
+        userRouter.get("/checkAuth", async (req: Request, res: Response): Promise<any> => {
+            if (req.isAuthenticated()){
+                return res.status(200).send(true);
+            } else {
+                return res.status(401).send(false);
             }
         });
 
         userRouter.get("/:email", async (req: Request, res: Response): Promise<any> => {
+            if(!req.isAuthenticated()){
+                return res.status(401).send({error:"You must be logged in to access that"});
+            }
             const email = req?.params?.email;
             try {
                 const user = await userService.getUserByEmailAsync(email);
                 return res.status(200).send(user);
             } catch (error) {
-                return res.status(500).send(error instanceof Error ? error.message: "Unknown error");
+                return res.status(500).send(error instanceof Error ? {error: error.message}: {error: "Unknown error"});
             }
         });
 
@@ -35,24 +49,24 @@ export const configureUserRoutes = (
                 const isCreated = await userService.createUserAsync(newUser);
     
                 if (isCreated){
-                    return res.status(201).send("Created new user");
+                    return res.status(201).send({message: "Created new user"});
                 } else {
-                    return res.status(500).send("Failed to create new user");
+                    return res.status(500).send({error: "Failed to create new user"});
                 }
             } catch (error) {
-                return res.status(500).send(error instanceof Error ? error.message: "Unknown error");
+                return res.status(500).send(error instanceof Error ? {error: error.message}: {error: "Unknown error"});
             }
         });
 
         userRouter.post("/login", async (req: Request, res: Response, next: NextFunction) => {
             passport.authenticate("local", (error: string | null, user: User) => {
                 if (error) {
-                    res.status(500).send(error)
+                    res.status(500).send({error: error})
                 } else {
                     req.login(user, (error: string | null) => {
                         if (error) {
                             console.log(error);
-                            res.status(500).send("Internal server error.")
+                            res.status(500).send({error: "Internal server error."})
                         } else {
                             res.status(200).send(user)
                         }
@@ -62,39 +76,39 @@ export const configureUserRoutes = (
         });
 
         userRouter.post("/logout", async (req: Request, res: Response): Promise<any> => {
-            if (req.isAuthenticated()) {
-                req.logout((error) => {
-                    if(error){
-                        console.log(error);
-                        return res.status(500).send("Internal server error.");
-                    }
-                    return res.status(200).send("Succesfully logged out.");
-                });
-            } else {
-                return res.status(401).send("User is not logged in.");
+            if(!req.isAuthenticated()){
+                return res.status(401).send({error:"You must be logged in to access that"});
             }
+            req.logout((error) => {
+                if(error){
+                    console.log(error);
+                    return res.status(500).send({error:"Internal server error."});
+                }
+                return res.status(200).send({message:"Succesfully logged out."});
+            });
         });
 
         userRouter.delete("/:userEmail", async (req: Request, res: Response): Promise<any> => {
-            if (!req.isAuthenticated()){
-                return res.status(401).send("You must be logged in to access that");
-            };
+            if(!req.isAuthenticated()){
+                return res.status(401).send({error:"You must be logged in to access that"});
+            }
             if(!checkUserRole(req, UserRoles.Admin)){
-                return res.status(403).send("You don't have permission to access that");
+                return res.status(403).send({error:"You don't have permission to access that"});
             };
             
             const userEmail = req?.params?.userEmail;
 
             try{
                 if(await userService.deleteUserAsync(userEmail)){
-                    return res.status(200).send("User deleted");
+                    return res.status(200).send({message:"User deleted"});
                 } else {
-                    return res.status(500).send("Internal Server Error");
+                    return res.status(500).send({error:"Internal Server Error"});
                 }
             } catch (error) {
-                return res.status(500).send(error instanceof Error? error.message: "Unknown error");
+                return res.status(500).send(error instanceof Error ? {error: error.message}: {error: "Unknown error"});
             }
         });
+
 
         return userRouter;
 }

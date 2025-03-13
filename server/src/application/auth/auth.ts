@@ -19,10 +19,13 @@ export const configurePassport = (passport: PassportStatic): PassportStatic => {
 
     passport.use("local", new Strategy(async (email, password, done) => {
         const user = await collections?.users?.findOne({email: email}) as User;
+        if(!user){
+            return done("Incorrect username or password");
+        }
         if (password === user.password){
-            done(null, await mapper.mapAsync(user, User, UserDetailsDto))
+            return done(null, await mapper.mapAsync(user, User, UserDetailsDto))
         } else {
-            done("Incorrect username or password.")
+            return done("Incorrect username or password.")
         }
     }));
 

@@ -30,7 +30,14 @@ connectToDatabase(DB_URI)
 
         const app = express();
 
-        app.use(cors());
+        app.use(
+            cors({
+              origin: (origin, callback) => {
+                callback(null, true);
+              },
+              credentials: true,
+            })
+          );
         
         app.use(bodyParser.urlencoded({extended: true}))
         app.use(bodyParser.json())
@@ -40,7 +47,7 @@ connectToDatabase(DB_URI)
         app.use(expressSession({
             secret: "testSecret",
             resave: false,
-            saveUninitialized: true
+            saveUninitialized: false
         }));
 
         app.use(passport.initialize());
