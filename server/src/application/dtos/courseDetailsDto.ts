@@ -1,4 +1,5 @@
 import { AutoMap } from "@automapper/classes";
+import { Classroom } from "../../domain/entities/classroom";
 
 export class CourseDetailsDto{
     @AutoMap()
@@ -21,4 +22,6 @@ export class CourseDetailsDto{
 
     @AutoMap()
     isActive: boolean;
+
+    classRoom: Classroom;
 }

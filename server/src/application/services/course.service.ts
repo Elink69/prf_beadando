@@ -1,3 +1,4 @@
+import { Classroom } from "../../domain/entities/classroom";
 import { Course } from "../../domain/entities/course"
 import { UserRoles } from "../../domain/enums/userRoles";
 import { collections } from "../dbContext/dbContext";
@@ -6,20 +7,34 @@ import { CourseDetailsDto } from "../dtos/courseDetailsDto";
 import { CourseModifyDto } from "../dtos/courseModifyDto";
 import { mapper } from "../mappers/mapper";
 
+const mapClassroom = async (course: CourseDetailsDto): Promise<CourseDetailsDto> => {
+    const classroomId = (await collections?.classroom_course?.findOne({courseId: course.courseId}))?.classRoomId;
+    course.classRoom = (await collections?.classroom?.findOne({classRoomId: classroomId})) as Classroom;
+    return course;
+}
+
 export const getCoursesAsync = async (): Promise<CourseDetailsDto[]> => {
     const courses = await collections?.courses?.find({}).toArray() as Course[];
-    return await mapper.mapArrayAsync(courses, Course, CourseDetailsDto);
+    const courseDetails = await mapper.mapArrayAsync(courses, Course, CourseDetailsDto);
+    courseDetails.forEach(async (course) => {
+        course = await mapClassroom(course)
+    })
+    return courseDetails;
 }
 
 export const getActiveCoursesAsync = async (): Promise<CourseDetailsDto[]> => {
     const courses = await collections?.courses?.find({isActive: true}).toArray() as Course[];
-    return await mapper.mapArrayAsync(courses, Course, CourseDetailsDto);
+    const courseDetails = await mapper.mapArrayAsync(courses, Course, CourseDetailsDto);
+    courseDetails.forEach(async (course) => {
+        course = await mapClassroom(course);
+    })
+    return courseDetails;
 }
 
 export const getCourseByIdAsync = async (courseId: string): Promise<CourseDetailsDto> => {
     const query = {courseId: courseId}
     const course = await collections?.courses?.findOne(query)
-    return await mapper.mapAsync(course, Course, CourseDetailsDto);
+    return await mapClassroom(await mapper.mapAsync(course, Course, CourseDetailsDto));
 }
 
 export const updateCourseAsync = async (courseDto: CourseModifyDto, courseId: string): Promise<void> => {

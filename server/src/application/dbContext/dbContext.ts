@@ -3,11 +3,15 @@ import { User, userJsonSchema } from "../../domain/entities/user";
 import { Course, courseJsonSchema } from "../../domain/entities/course";
 import { DbCollections } from "../../domain/enums/dbCollections";
 import { PickedCourse, pickedCourseJsonSchema } from "../../domain/entities/pickedCourse";
+import { Classroom, classroomJsonSchema } from "../../domain/entities/classroom";
+import { ClassroomCourse, classroomCourseJsonSchema } from "../../domain/entities/classroomCourse";
 
 export const collections: {
     users?: mongodb.Collection<User>;
     courses?: mongodb.Collection<Course>;
+    classroom?: mongodb.Collection<Classroom>;
     picked_courses?: mongodb.Collection<PickedCourse>;
+    classroom_course?: mongodb.Collection<ClassroomCourse>;
 } = {};
 
 export const connectToDatabase = async (uri: string): Promise<void> => {
@@ -20,6 +24,8 @@ export const connectToDatabase = async (uri: string): Promise<void> => {
     collections.users = db.collection<User>(DbCollections.Users);
     collections.courses = db.collection<Course>(DbCollections.Courses);
     collections.picked_courses = db.collection<PickedCourse>(DbCollections.PickedCourses);
+    collections.classroom = db.collection<Classroom>(DbCollections.Classroom)
+    collections.classroom_course = db.collection<ClassroomCourse>(DbCollections.ClassroomCourse);
 }
 
 const schemaValidation = async (db: mongodb.Db): Promise<void> => {
@@ -27,7 +33,9 @@ const schemaValidation = async (db: mongodb.Db): Promise<void> => {
     const jsonSchemas = [
         userJsonSchema,
         courseJsonSchema,
-        pickedCourseJsonSchema
+        classroomJsonSchema,
+        pickedCourseJsonSchema,
+        classroomCourseJsonSchema
     ]
 
     dbCollections.forEach(async (collectionName, index) => {
