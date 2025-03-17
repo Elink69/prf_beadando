@@ -5,10 +5,12 @@ import { MatCardModule } from "@angular/material/card";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button"; 
+import { MatIconModule } from '@angular/material/icon';
 import { UserService } from '../services/user.service';
 import { UserCreationDto } from '../dtos/userCreationDto';
 import { UserRoles } from '../enums/userRoles';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -20,7 +22,8 @@ import { Router, RouterModule } from '@angular/router';
     MatButtonModule,
     ReactiveFormsModule,
     CommonModule,
-    RouterModule
+    RouterModule,
+    MatIconModule
   ],
   templateUrl: './user-register.component.html',
   styleUrl: './user-register.component.scss'
@@ -32,7 +35,8 @@ export class UserRegisterComponent implements OnInit{
     private formBuilder: FormBuilder,
     private userService: UserService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) {
   }
 
@@ -84,5 +88,9 @@ export class UserRegisterComponent implements OnInit{
     } else {
       this.toastr.warning("Please check the form for errors", "Form invalid");
     }
+  }
+
+  back(){
+    this.location.back();
   }
 }

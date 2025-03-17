@@ -2,10 +2,20 @@ mat-sidenav-container{
     height: 100%;
 }
 
+mat-toolbar{
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+}
+mat-toolbar mat-icon {
+    color: var(--mat-sys-on-primary-container);
+}
+
 mat-sidenav{
+    border-radius: 0;
     user-select: none;
     width: fit-content;
-    min-width: 15rem;
+    min-width: 12rem;
+    background-color: var(--mat-sys-secondary-container);
 }
 
 mat-sidenav-content{
