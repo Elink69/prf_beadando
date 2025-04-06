@@ -3,9 +3,12 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list'; 
-import { UserService } from '../services/user.service';
-import { Router, RouterModule } from '@angular/router';
+import { MatListModule } from '@angular/material/list';
+import { RouterModule } from '@angular/router';
+import { CourseDetailsDto } from '../dtos/courseDetailsDto';
+import { CourseService } from '../services/course.service';
+import { MatTableModule, MatTableDataSource, MatTable } from '@angular/material/table';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-homepage',
@@ -15,29 +18,32 @@ import { Router, RouterModule } from '@angular/router';
     MatIconModule,
     MatButtonModule,
     MatListModule,
+    MatTableModule,
+    MatCardModule,
     RouterModule
   ],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })
 export class HomepageComponent {
-  sidenavIsExpanded: boolean = true;
+  pickedClasses = new MatTableDataSource<CourseDetailsDto>();
+  displayedColumns: string[] = ['courseId', 'name', 'description', 'studentLimit', 'actions'];
 
-  constructor(private userService: UserService, private router: Router){
-
+  constructor(private courseService: CourseService){
+    this.courseService.getPickedCourses().subscribe({
+      next: (courses) => {
+        console.log(courses);
+        this.pickedClasses.data = courses
+      },
+      error: (err) => console.log(err)
+    });
   }
 
-  logout(){
-    this.userService.logout().subscribe({
-      next: (response) => {
-        console.log(response);
-        this.router.navigateByUrl("/login");
-      },
-      error: (error) => {
-        console.log(error)
-        this.router.navigateByUrl("/login");
-      }
-    });
-    
+  dropCourse(courseId: string) {
+    console.log(`Dropping course: ${courseId}`);
+  }
+  
+  viewDetails(course: CourseDetailsDto) {
+    console.log('Viewing details for:', course);
   }
 }

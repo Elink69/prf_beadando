@@ -1,21 +1,11 @@
-import { AutoMap } from "@automapper/classes";
-
 export class CourseCreationDto {
-    @AutoMap()
-    courseId: string;
-
-    @AutoMap()
-    name: string;
-
-    @AutoMap()
-    description: string;
-
-    @AutoMap(() => [String])
-    schedule: string[];
-
-    @AutoMap()
-    studentLimit: number;
-
-    @AutoMap()
-    teacherName: string;
+    constructor(
+        public courseId: string,
+        public name: string,
+        public description: string,
+        public schedule: string[],
+        public studentLimit: number,
+        public teacherName: string
+    ){}
+   
 }

@@ -1,16 +1,44 @@
-<mat-toolbar>
-    <button mat-icon-button (click)="sidenavIsExpanded=!sidenavIsExpanded">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>Fake Neptun</span>
-</mat-toolbar>
-<mat-sidenav-container autosize>
-    <mat-sidenav mode="side" [(opened)]="sidenavIsExpanded">
-        <mat-nav-list role="navigation">
-            <a mat-list-item (click)="logout()">Logout</a>
-        </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content>
-        :D 
-    </mat-sidenav-content>
-</mat-sidenav-container>
+<mat-card class="table-card">
+    <mat-card-title class="title">Picked Courses</mat-card-title>
+    <div class="table-container">
+      <table mat-table [dataSource]="pickedClasses" class="mat-elevation-z8">
+  
+        <ng-container matColumnDef="courseId">
+          <th mat-header-cell *matHeaderCellDef> Course ID </th>
+          <td mat-cell *matCellDef="let course"> {{ course.courseId }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let course"> {{ course.name }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let course"> {{ course.description }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="studentLimit">
+          <th mat-header-cell *matHeaderCellDef> Student Limit </th>
+          <td mat-cell *matCellDef="let course"> {{ course.studentLimit }} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let course">
+            <button mat-icon-button (click)="dropCourse(course.courseId)">
+              <mat-icon class="delete-icon">delete</mat-icon>
+            </button>
+            <button mat-icon-button  (click)="viewDetails(course)">
+              <mat-icon class="info-icon">info</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header-row"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="data-row"></tr>
+  
+      </table>
+    </div>
+  </mat-card>
+  

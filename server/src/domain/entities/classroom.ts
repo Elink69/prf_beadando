@@ -1,47 +1,18 @@
-import * as mongodb from "mongodb";
-import { AutoMap } from "@automapper/classes";
+import { Document, model, Model, Schema } from "mongoose";
+import { DbCollections } from "../enums/dbCollections";
 
-export class Classroom{
-   
-    @AutoMap()
+export interface IClassroom extends Document{
     classRoomId: string;
-
-    @AutoMap()
     building: string;
-
-    @AutoMap()
     floor: number;
-
-    @AutoMap()
     roomNumber: number;
-
-    _id?: mongodb.ObjectId;
 }
 
-export const classroomJsonSchema = {
-    $jsonSchema: {
-        bsonType: "object",
-        required: [
-           "building",
-           "floor",
-           "roomNumber"
-        ],
-        additionalProperties: false,
-        properties: {
-            _id: {},
-            classRoomId: {
-                bsonType: "string"
-            },
-            building: {
-                bsonType: "string"
-            },
-            floor: {
-                bsonType: "number"
-            },
-            roomNumber: {
-                bsonType: "number"
-            }
-        }
-    }
-}
+const classroomSchema: Schema<IClassroom> = new Schema ({
+    classRoomId: {type: String, required: true},
+    building: {type: String, required: true},
+    floor: {type: Number, required: true},
+    roomNumber: {type: Number, required: true}
+});
 
+export const Classroom: Model<IClassroom> = model<IClassroom>(DbCollections.Classrooms, classroomSchema);

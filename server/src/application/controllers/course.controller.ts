@@ -4,7 +4,7 @@ import { checkUserRole } from "../auth/auth";
 import { UserRoles } from "../../domain/enums/userRoles";
 import { CourseCreationDto } from "../dtos/courseCreationDto";
 import { CourseModifyDto } from "../dtos/courseModifyDto";
-import { User } from "../../domain/entities/user";
+import { IUser } from "../../domain/entities/user";
 
 export const configureCourseRoutes = (
     courseRouter: Router): Router => {
@@ -16,11 +16,26 @@ export const configureCourseRoutes = (
 
             try{
                 const courses = await courseService.getCoursesAsync();
+                courses.sort((a,b) => a.isActive < b.isActive ? -1 : a.isActive > b.isActive ? 1 : 0);
                 return res.status(200).send(courses);
             } catch (error) {
                 return res.status(500).send(error instanceof Error ? {error: error.message}: {error: "Unknown error"});
             }
 
+        });
+
+        courseRouter.get("/picked", async (req: Request, res: Response): Promise<any> => {
+            if(!req.isAuthenticated()){
+                return res.status(401).send({error:"You must be logged in to access that"});
+            }
+            const user = req.user as IUser;
+            try{
+                const courses = await courseService.getPickedCoursesAsync(user.email);
+                return res.status(200).send(courses);
+            }
+            catch (error) {
+                return res.status(500).send(error instanceof Error ? {error: error.message}: {error: "Unknown error"});
+            }
         });
 
         courseRouter.get("/active", async (req: Request, res: Response): Promise<any> => {
@@ -77,7 +92,7 @@ export const configureCourseRoutes = (
             }
         });
 
-        courseRouter.patch("/:courseId", async (req: Request, res: Response): Promise<any> => {
+        courseRouter.put("/:courseId", async (req: Request, res: Response): Promise<any> => {
             
             if(!req.isAuthenticated()){
                 return res.status(401).send({error:"You must be logged in to access that"});
@@ -89,7 +104,7 @@ export const configureCourseRoutes = (
             const courseId = req?.params?.courseId
             
             const currentCourse = await courseService.getCourseByIdAsync(courseId)
-            const currentUser = req.user as User
+            const currentUser = req.user as IUser
             
             if (!checkUserRole(req, UserRoles.Admin) && currentUser.name !== currentCourse.teacherName){
                 return res.status(403).send({error:"Teachers can only modify their own courses"});
@@ -120,7 +135,7 @@ export const configureCourseRoutes = (
             const courseId = req?.params?.courseId;
 
             const courseToDelete = await courseService.getCourseByIdAsync(courseId);
-            const currentUser = req.user as User
+            const currentUser = req.user as IUser
 
             if(!checkUserRole(req, UserRoles.Admin) && currentUser.name !== courseToDelete.teacherName){
                 return res.status(403).send({error:"Teachers can only delete their own courses"});

@@ -1,51 +1,21 @@
-import * as mongodb from "mongodb"
+import { DbCollections } from "../enums/dbCollections";
 import { UserRoles } from "../enums/userRoles"
-import { AutoMap } from "@automapper/classes"
+import { Document, model, Model, Schema } from "mongoose";
 
-export class User {
-    @AutoMap()
+export interface IUser extends Document{
     name: string;
-
     password: string;
-
-    @AutoMap()
     email: string;
-
-    @AutoMap(() => Number)
     role: UserRoles;
-
-    @AutoMap()
     createdOn: Date;
-
-    _id?: mongodb.ObjectId;
 }
 
-export const userJsonSchema = {
-    $jsonSchema: {
-        bsonType: "object",
-        required: ["name", "password", "email", "role"],
-        additionalProperties: false,
-        properties: {
-            _id: {},
-            name: {
-                bsonType: "string",
-                description: "'name' is required"
-            },
-            password: {
-                bsonType: "string",
-                description: "'password' is required"
-            },
-            email: {
-                bsonType: "string",
-                description: "'email' is required"
-            },
-            role: {
-                bsonType: "number",
-                description: "'role' is required"
-            },
-            createdOn: {
-                bsonType: "date"
-            }
-        }
-    }
-}
+const userSchema: Schema<IUser> = new Schema ({
+    name: {type: String, required: true},
+    password: {type: String, required: true},
+    email: {type: String, required: true},
+    role: {type: Number, required: true},
+    createdOn: {type: Date},
+});
+
+export const User: Model<IUser> = model<IUser>(DbCollections.Users, userSchema)

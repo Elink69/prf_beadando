@@ -1,5 +1,5 @@
 import { Request, Response, Router } from "express";
-import { User } from "../../domain/entities/user";
+import { IUser } from "../../domain/entities/user";
 import { dropCourseAsync, pickCourseAsync } from "../services/pickCourse.service";
 
 export const configurePickCourseRouter = (
@@ -10,7 +10,7 @@ export const configurePickCourseRouter = (
                 return res.status(401).send("You must be logged in to access that");
             }
 
-            const currentUser = req?.user as User;
+            const currentUser = req?.user as IUser;
             const courseId = req?.params?.courseId;
 
             try{
@@ -19,7 +19,8 @@ export const configurePickCourseRouter = (
                 }else{
                     return res.status(500).send("Internal Server Error");
                 }
-            } catch (error){
+            } catch (error: any){
+                console.log(error.errInfo.details.schemaRulesNotSatisfied)
                 res.status(500).send(error instanceof Error? error.message: "Unknown error");
             }
         });
@@ -29,7 +30,7 @@ export const configurePickCourseRouter = (
                 return res.status(401).send("You must be logged in to access that");
             }
 
-            const currentUser = req?.user as User;
+            const currentUser = req?.user as IUser;
             const courseId = req?.params?.courseId;
 
             try{

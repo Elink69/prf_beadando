@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserDetailsDto } from '../dtos/userDetailsDto';
 import { UserCreationDto } from '../dtos/userCreationDto';
+import { UserRoles } from '../enums/userRoles';
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +51,13 @@ export class UserService {
         withCredentials: true
       }
     );
+  }
+
+  getUserRole(){
+    return this.httpClient.get<UserRoles>(`${this.url}/role`,
+      {
+        withCredentials: true
+      }
+    )
   }
 }

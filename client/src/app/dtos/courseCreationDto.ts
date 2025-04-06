@@ -1,5 +1,6 @@
-export class CourseModifyDto{
+export class CourseCreationDto{
     constructor(
+        public courseId: string,
         public name: string,
         public description: string,
         public schedule: string[],

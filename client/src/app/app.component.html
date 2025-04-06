@@ -1,1 +1,20 @@
-<router-outlet></router-outlet>
+<mat-toolbar>
+    <button mat-icon-button (click)="sidenavIsExpanded=!sidenavIsExpanded">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Fake Neptun</span>
+</mat-toolbar>
+<mat-sidenav-container autosize>
+    <mat-sidenav mode="side" [(opened)]="sidenavIsExpanded">
+        <mat-nav-list role="navigation">
+            <a mat-list-item href="/home">Home</a>
+            <a mat-list-item href="/courses">Courses</a>
+            <a mat-list-item href="/users">Users</a>
+            <a mat-list-item (click)="logout()">Logout</a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+

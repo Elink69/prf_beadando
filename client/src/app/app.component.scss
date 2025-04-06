@@ -1,0 +1,30 @@
+mat-sidenav-container{
+    height: 95%;
+}
+
+mat-toolbar{
+    background-color: var(--mat-sys-primary-container);
+    color: var(--mat-sys-on-primary-container);
+}
+mat-toolbar mat-icon {
+    color: var(--mat-sys-on-primary-container);
+}
+
+mat-sidenav{
+    border-radius: 0;
+    user-select: none;
+    width: fit-content;
+    min-width: 12rem;
+    background-color: var(--mat-sys-secondary-container);
+}
+
+mat-sidenav-content{
+    display: flex;
+    height: 95%;
+    width: 95%;
+    align-items: start;
+    justify-content: center;
+}
+mat-toolbar > span{
+    margin-left: 1rem;
+}

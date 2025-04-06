@@ -1,24 +1,14 @@
-import * as mongodb from "mongodb"
+import { Document, model, Model, Schema } from "mongoose";
+import { DbCollections } from "../enums/dbCollections";
 
-export class PickedCourse{
+interface IPickedCourse extends Document{
     userEmail: string;
     courseId: string;
-    _id?: mongodb.ObjectId;
 }
 
-export const pickedCourseJsonSchema = {
-    $jsonSchema: {
-        bsonType: "object",
-        required: ["userEmail", "courseId"],
-        additionalProperties: false,
-        properties: {
-            _id: {},
-            userEmail: {
-                bsonType: "string"
-            },
-            courseId: {
-                bsonType: "string"
-            }
-        }
-    }
-}
+const pickedCourseSchmea: Schema<IPickedCourse> = new Schema ({
+    userEmail: {type: String, required: true},
+    courseId: {type: String, required: true}
+});
+
+export const PickedCourse: Model<IPickedCourse> = model<IPickedCourse>(DbCollections.PickedCourses, pickedCourseSchmea);

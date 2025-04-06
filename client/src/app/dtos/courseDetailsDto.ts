@@ -1,4 +1,4 @@
-import { Classroom} from "../../domain/entities/classroom";
+import { Classroom } from "./classroom"
 
 export class CourseDetailsDto{
     constructor(
@@ -9,6 +9,6 @@ export class CourseDetailsDto{
         public studentLimit: number,
         public teacherName: string,
         public isActive: boolean,
-        public classRoom: typeof Classroom | null
+        public classRoom: Classroom,
     ){}
 }

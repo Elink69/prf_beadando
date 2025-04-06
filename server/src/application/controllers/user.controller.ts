@@ -1,10 +1,10 @@
-import { Router, Request, Response, NextFunction, json } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import * as userService from "../services/user.service";
 import { PassportStatic } from "passport";
-import { User, userJsonSchema } from "../../domain/entities/user";
 import { UserCreationDto } from "../dtos/userCreationDto";
 import { checkUserRole } from "../auth/auth";
 import { UserRoles } from "../../domain/enums/userRoles";
+import { IUser, User } from "../../domain/entities/user";
 
 export const configureUserRoutes = (
     passport: PassportStatic,
@@ -27,6 +27,14 @@ export const configureUserRoutes = (
                 return res.status(200).send(true);
             } else {
                 return res.status(401).send(false);
+            }
+        });
+
+        userRouter.get("/role", async (req: Request, res: Response): Promise<any> => {
+            if (req.isAuthenticated()){
+                return res.status(200).send((req.user as IUser).role)
+            } else {
+                return res.status(401).send({error:"You must be logged in to access that"});
             }
         });
 
@@ -59,7 +67,7 @@ export const configureUserRoutes = (
         });
 
         userRouter.post("/login", async (req: Request, res: Response, next: NextFunction) => {
-            passport.authenticate("local", (error: string | null, user: User) => {
+            passport.authenticate("local", (error: string | null, user: typeof User) => {
                 if (error) {
                     res.status(500).send({error: error})
                 } else {
