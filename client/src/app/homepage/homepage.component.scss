@@ -2,9 +2,10 @@
     padding: 20px;
     margin: 20px;
     border-radius: 12px;
+    min-width: 75rem;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     background-color: var(--mat-card-background-color);
-    width: 100%;
+    width: 95%;
   }
   
 .title {
@@ -24,7 +25,7 @@
 
 .table-container {
     width: 100%;
-    min-width: 50rem;
+    min-width: 70rem;
     display: flex;
     justify-content: center;
     overflow-x: auto;
@@ -44,9 +45,21 @@ th {
     text-align: left;
 }
 
+.mat-column-description {
+  max-width: 45rem;
+  min-width: 15rem;
+}
+
+.mat-column-actions {
+  min-width: 8rem;
+}
+
 td {
     padding: 12px;
     border-bottom: 1px solid #e0e0e0;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .header-row {
@@ -54,6 +67,6 @@ td {
 }
 
 .data-row:hover {
-    background-color: rgba(var(--mat-sys-primary-rgb), 0.1);
+    background-color: var(--mat-sys-surface-container-highest);
     transition: background-color 0.3s ease;
 }

@@ -20,11 +20,13 @@ export const configurePassport = (passport: PassportStatic): PassportStatic => {
         if(!user){
             return done("Incorrect username or password");
         }
-        if (password === user.password){
-            return done(null, new UserDetailsDto(user.name, user.email, user.role, user.createdOn));
-        } else {
-            return done("Incorrect username or password.")
-        }
+        user.comparePassword(password, (error, isMatch) => {
+          if (error){
+            done("Incorrect username or password");
+          } else {
+            done(null, user);
+          }
+        });
     }));
 
     return passport;

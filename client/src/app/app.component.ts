@@ -29,7 +29,6 @@ export class AppComponent {
   sidenavIsExpanded: boolean = true;
 
   constructor(private userService: UserService, private router: Router){
-
   }
 
   logout(){

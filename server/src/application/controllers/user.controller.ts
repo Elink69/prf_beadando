@@ -5,6 +5,7 @@ import { UserCreationDto } from "../dtos/userCreationDto";
 import { checkUserRole } from "../auth/auth";
 import { UserRoles } from "../../domain/enums/userRoles";
 import { IUser, User } from "../../domain/entities/user";
+import { UserModifyDto } from "../dtos/userModifyDto";
 
 export const configureUserRoutes = (
     passport: PassportStatic,
@@ -21,6 +22,23 @@ export const configureUserRoutes = (
                 return res.status(500).send(error instanceof Error ? {error: error.message}: {error: "Unknown error"});
             }
         });
+        
+        userRouter.get("/userInfo", async (req: Request, res: Response): Promise<any> => {
+          if (!req.isAuthenticated){
+            return res.status(401).send({error:"You must be logged in to access that"})
+          }
+          if(req.user){
+            const email = (req.user as IUser).email;
+            try {
+              const user = await userService.getUserByEmailAsync(email);
+              return res.status(200).send(user);
+            } catch (error) {
+                return res.status(500).send(error instanceof Error ? {error: error.message}: {error: "Unknown error"});
+            }
+          } else{
+            return res.status(500).send({error: "Internal Server Error"});
+          }
+        });
 
         userRouter.get("/checkAuth", async (req: Request, res: Response): Promise<any> => {
             if (req.isAuthenticated()){
@@ -32,7 +50,7 @@ export const configureUserRoutes = (
 
         userRouter.get("/role", async (req: Request, res: Response): Promise<any> => {
             if (req.isAuthenticated()){
-                return res.status(200).send((req.user as IUser).role)
+                return res.status(200).send({"role": (req.user as IUser).role})
             } else {
                 return res.status(401).send({error:"You must be logged in to access that"});
             }
@@ -40,7 +58,7 @@ export const configureUserRoutes = (
 
         userRouter.get("/:email", async (req: Request, res: Response): Promise<any> => {
             if(!req.isAuthenticated()){
-                return res.status(401).send({error:"You must be logged in to access that"});
+              return res.status(401).send({error:"You must be logged in to access that"});
             }
             const email = req?.params?.email;
             try {
@@ -49,6 +67,25 @@ export const configureUserRoutes = (
             } catch (error) {
                 return res.status(500).send(error instanceof Error ? {error: error.message}: {error: "Unknown error"});
             }
+        });
+
+        userRouter.put("/:email", async (req: Request, res: Response): Promise<any> => {
+          if(!req.isAuthenticated()){
+            return res.status(401).send({error:"You must be logged in to access that"});
+          }
+          const email = req.params?.email;
+          const userEdit = req.body as UserModifyDto
+          try {
+            const result = await userService.modifyUser(email, userEdit);
+            if(result){
+              return res.status(200).send({message: "Modified user"});
+            }else{
+              return res.status(500).send({error: "Failed to modify user"});
+            }
+          }
+          catch (error) {
+            return res.status(500).send(error instanceof Error ? {error: error.message}: {error: "Unknown error"});
+          }
         });
 
         userRouter.post("/register", async (req: Request, res: Response): Promise<any> => {

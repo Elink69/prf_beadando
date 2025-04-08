@@ -5,6 +5,7 @@ export class UserDetailsDto {
         public name: string,
         public email: string,
         public role: UserRoles,
+        public visibleRole: string | undefined,
         public creationDate: Date,
     ){}
 }

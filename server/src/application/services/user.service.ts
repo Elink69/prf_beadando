@@ -1,6 +1,7 @@
 import { User } from "../../domain/entities/user";
 import { UserCreationDto } from "../dtos/userCreationDto";
 import { UserDetailsDto } from "../dtos/userDetailsDto";
+import { UserModifyDto } from "../dtos/userModifyDto";
 
 export const getUsersAsync = async (): Promise<UserDetailsDto[]> => {
     const users = await User.find({});
@@ -27,6 +28,21 @@ export const getUserByEmailAsync = async (userEmail: string): Promise<UserDetail
     return new UserDetailsDto(user.name, user.email, user.role, user.createdOn);
 }
 
+export const modifyUser = async (userEmail: string, editDto: UserModifyDto): Promise<boolean> => {
+  const user = await User.findOne({email: userEmail});
+  if(!user){
+    throw new Error("User not found");
+  }
+
+  user.email = editDto.email;
+  user.name = editDto.name;
+  user.password = editDto.password;
+  user.role = editDto.role;
+
+  const saveResult = await user.save();
+  return !!saveResult;
+}
+
 export const createUserAsync = async (userData: UserCreationDto): Promise<boolean> => {
     const newUser = new User({email: userData.email, password: userData.password, name: userData.name, role: userData.role})
 
@@ -38,7 +54,6 @@ export const createUserAsync = async (userData: UserCreationDto): Promise<boolea
 
     newUser.createdOn = new Date();
     const insertResult = await newUser.save();
-    console.log(insertResult)
     return !!insertResult
 }
 

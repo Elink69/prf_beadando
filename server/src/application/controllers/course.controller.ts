@@ -5,6 +5,7 @@ import { UserRoles } from "../../domain/enums/userRoles";
 import { CourseCreationDto } from "../dtos/courseCreationDto";
 import { CourseModifyDto } from "../dtos/courseModifyDto";
 import { IUser } from "../../domain/entities/user";
+import { CourseDetailsDto } from "../dtos/courseDetailsDto";
 
 export const configureCourseRoutes = (
     courseRouter: Router): Router => {
@@ -16,7 +17,7 @@ export const configureCourseRoutes = (
 
             try{
                 const courses = await courseService.getCoursesAsync();
-                courses.sort((a,b) => a.isActive < b.isActive ? -1 : a.isActive > b.isActive ? 1 : 0);
+                courses.sort((a,b) => a.isActive < b.isActive ? -1 : a.isActive > b.isActive ? 1 : a.courseId.localeCompare(b.courseId));
                 return res.status(200).send(courses);
             } catch (error) {
                 return res.status(500).send(error instanceof Error ? {error: error.message}: {error: "Unknown error"});
@@ -102,8 +103,12 @@ export const configureCourseRoutes = (
             };
 
             const courseId = req?.params?.courseId
-            
-            const currentCourse = await courseService.getCourseByIdAsync(courseId)
+            let currentCourse: CourseDetailsDto | null = null
+            try{
+              currentCourse = await courseService.getCourseByIdAsync(courseId)
+            } catch (err) {
+              return res.status(500).send({error: (err instanceof Error ? err.message : "Unknown Error")});
+            }
             const currentUser = req.user as IUser
             
             if (!checkUserRole(req, UserRoles.Admin) && currentUser.name !== currentCourse.teacherName){
@@ -134,7 +139,12 @@ export const configureCourseRoutes = (
 
             const courseId = req?.params?.courseId;
 
-            const courseToDelete = await courseService.getCourseByIdAsync(courseId);
+            let courseToDelete: CourseDetailsDto | null = null
+            try{
+              courseToDelete = await courseService.getCourseByIdAsync(courseId)
+            } catch (err) {
+              return res.status(500).send({error: (err instanceof Error ? err.message : "Unknown Error")});
+            }
             const currentUser = req.user as IUser
 
             if(!checkUserRole(req, UserRoles.Admin) && currentUser.name !== courseToDelete.teacherName){

@@ -7,7 +7,7 @@ export const configurePickCourseRouter = (
 
         pickCourseRouter.post("/:courseId", async (req: Request, res: Response): Promise<any> => {
             if(!req.isAuthenticated()){
-                return res.status(401).send("You must be logged in to access that");
+                return res.status(401).send({error:"You must be logged in to access that"});
             }
 
             const currentUser = req?.user as IUser;
@@ -15,19 +15,19 @@ export const configurePickCourseRouter = (
 
             try{
                 if(await pickCourseAsync(currentUser.email, courseId)){
-                    return res.status(200).send("Class picked successfully");
+                    return res.status(200).send({message:"Class picked successfully"});
                 }else{
-                    return res.status(500).send("Internal Server Error");
+                    return res.status(500).send({error: "Internal Server Error"});
                 }
             } catch (error: any){
                 console.log(error.errInfo.details.schemaRulesNotSatisfied)
-                res.status(500).send(error instanceof Error? error.message: "Unknown error");
+                res.status(500).send({error:error instanceof Error? error.message: "Unknown error"});
             }
         });
 
         pickCourseRouter.delete("/:courseId", async (req: Request, res: Response): Promise<any> => {
             if(!req.isAuthenticated()){
-                return res.status(401).send("You must be logged in to access that");
+                return res.status(401).send({error:"You must be logged in to access that"});
             }
 
             const currentUser = req?.user as IUser;
@@ -35,12 +35,12 @@ export const configurePickCourseRouter = (
 
             try{
                 if(await dropCourseAsync(currentUser.email, courseId)){
-                    return res.status(200).send("Class dropped successfully");
+                    return res.status(200).send({message:"Class dropped successfully"});
                 }else{
-                    return res.status(500).send("Internal Server Error");
+                    return res.status(500).send({error: "Internal Server Error"});
                 }
             } catch (error) {
-                res.status(500).send(error instanceof Error? error.message: "Unknown error");
+                res.status(500).send({error: error instanceof Error? error.message: "Unknown error"});
             }
         });
 

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { UserDetailsDto } from '../dtos/userDetailsDto';
 import { UserCreationDto } from '../dtos/userCreationDto';
 import { UserRoles } from '../enums/userRoles';
+import { UserModifyDto } from '../dtos/userModifyDto';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,40 @@ export class UserService {
   private url = "http://localhost:12212/users";
 
   constructor(private httpClient: HttpClient) { }
+
+  deleteUser(userEmail: string){
+    return this.httpClient.delete(`${this.url}/${userEmail}`, 
+      {
+        responseType: "json",
+        withCredentials: true
+      }
+    );
+  }
+
+  getAllUsers(){
+    return this.httpClient.get<UserDetailsDto[]>(`${this.url}/`,
+      {
+        withCredentials: true
+      }
+    )
+  }
+
+  modifyUser(userEmail: string, editDto: UserModifyDto){
+    return this.httpClient.put(`${this.url}/${userEmail}`, editDto, 
+      { 
+        responseType: "json",
+        withCredentials: true
+      }
+    )
+  }
+
+  getUserInfo(){
+    return this.httpClient.get<UserDetailsDto>(`${this.url}/userInfo`,
+      {
+        withCredentials: true
+      }
+    );
+  }
 
   login(email: string, password: string){
     return this.httpClient.post<UserDetailsDto>(`${this.url}/login`,
@@ -54,8 +89,9 @@ export class UserService {
   }
 
   getUserRole(){
-    return this.httpClient.get<UserRoles>(`${this.url}/role`,
+    return this.httpClient.get<{role: UserRoles}>(`${this.url}/role`,
       {
+        responseType: "json",
         withCredentials: true
       }
     )

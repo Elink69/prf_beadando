@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>Edit Details of {{ userData.name }}</h2>
+
+<mat-dialog-content class="data-details-content">
+ 
+      <form [formGroup]="editForm" (ngSubmit)="submit()">
+
+        <mat-form-field appearance="fill">
+          <mat-label>Name</mat-label>
+          <input matInput placeholder="Example Name" formControlName="name">
+        </mat-form-field>
+        <br />
+
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="example@email.com" formControlName="email">
+        </mat-form-field>
+        <br />
+
+        <mat-form-field appearance="fill">
+          <mat-label>Role</mat-label>
+          <mat-select formControlName="role">
+            <mat-option *ngFor="let role of roleOptions" [value]="role.value">
+              {{ readableRoles[role.value] }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br />
+
+        <mat-form-field appearance="fill">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" placeholder="password123" formControlName="password">
+        </mat-form-field>
+        <br />
+
+        <mat-form-field appearance="fill">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="password" placeholder="password123" formControlName="confirmPassword">
+        </mat-form-field>
+
+        <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+          <button mat-button type="button" mat-dialog-close>Cancel</button>
+          <button mat-flat-button color="primary" type="submit" [disabled]="editForm.invalid" mat-dialog-close>Save</button>
+        </div>
+      </form>
+</mat-dialog-content>

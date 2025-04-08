@@ -1,0 +1,43 @@
+.data-details-content {
+  mat-card {
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .description {
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: var(--mat-sys-secondary);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+
+  .detail-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+  }
+
+  .schedule ul {
+    padding-left: 1rem;
+    margin: 0;
+  }
+
+  mat-chip {
+    font-size: 0.75rem;
+    height: 24px;
+  }
+}
+
+.chip-active {
+  background-color: var(--mat-sys-primary-container) !important; 
+  color: var(--mat-sys-on-primary-container) !important;
+}
+
+.chip-inactive {
+  background-color: var(--mat-sys-error-container) !important;
+  color: var(--mat-sys-on-error-container) !important;
+}

@@ -18,23 +18,26 @@ const findClassroom = async (courseId: string): Promise<typeof Classroom | null>
 
 export const getCoursesAsync = async (): Promise<CourseDetailsDto[]> => {
     const courses = await Course.find({});
-    const pickedCoursesDetails: CourseDetailsDto[] = []
+    const coursesDetails: CourseDetailsDto[] = []
     await Promise.all(
-        courses.map(async course => {
-            const classroom = await findClassroom(course.courseId);
+      courses.map(async course => {
+          const classroom = await findClassroom(course.courseId);
+          coursesDetails.push(
             new CourseDetailsDto(
-                course.courseId,
-                course.name,
-                course.description,
-                course.schedule,
-                course.studentLimit,
-                course.teacherName,
-                course.isActive,
-                classroom
+              course.courseId,
+              course.name,
+              course.description,
+              course.schedule,
+              course.studentLimit,
+              course.teacherName,
+              course.isActive,
+              classroom
             )
-        })
+          )
+        }
+      )
     );
-    return pickedCoursesDetails;
+    return coursesDetails;
 }
 
 export const getPickedCoursesAsync = async (email: string): Promise<CourseDetailsDto[]> => {
@@ -44,7 +47,7 @@ export const getPickedCoursesAsync = async (email: string): Promise<CourseDetail
         pickedCourses.map(async pickedCourse => {
             const course = await Course.findOne({courseId: pickedCourse.courseId})
             if(!course){
-                throw new Error("Course not found");
+              throw new Error("Course not found");
             }
             const classroom = await findClassroom(course.courseId);
             pickedCoursesDetails.push(
@@ -108,15 +111,16 @@ export const getCourseByIdAsync = async (courseId: string): Promise<CourseDetail
 export const updateCourseAsync = async (courseDto: CourseModifyDto, courseId: string): Promise<void> => {
     const currentCourse = await Course.findOne({courseId: courseId});
     if(currentCourse){
-        currentCourse.name = courseDto.name;
-        currentCourse.description = courseDto.description;
-        currentCourse.schedule = [];
-        courseDto.schedule?.forEach((dateString) => {
-            currentCourse.schedule.push(new Date(dateString));
-        });
-        currentCourse.studentLimit = courseDto.studentLimit;
-        currentCourse.teacherName = courseDto.teacherName;
-        await currentCourse.save();
+      currentCourse.name = courseDto.name;
+      currentCourse.description = courseDto.description;
+      currentCourse.schedule = [];
+      courseDto.schedule?.forEach((dateString) => {
+          currentCourse.schedule.push(new Date(dateString));
+      });
+      currentCourse.studentLimit = courseDto.studentLimit;
+      currentCourse.teacherName = courseDto.teacherName;
+      currentCourse.isActive = courseDto.isActive
+      await currentCourse.save();
     }
 }
 
@@ -125,7 +129,6 @@ export const createCourseAsync = async (courseDto: CourseCreationDto, role: User
     courseDto.schedule?.forEach((dateString) => {
         scheduleDates.push(new Date(dateString));
     });
-    console.log(scheduleDates)
     const newCourse = new Course({
         courseId: courseDto.courseId,
         description: courseDto.description,

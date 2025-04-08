@@ -1,0 +1,35 @@
+.data-details-content {
+  mat-card {
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .detail-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+  }
+}
+
+mat-form-field {
+  width: 100%;
+  min-width: 25rem;
+  padding-bottom: 0.4rem;
+}
+
+mat-card-title {
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+mat-card-content {
+  display: flex;
+  justify-content: center;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}

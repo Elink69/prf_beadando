@@ -6,12 +6,14 @@ import { UserRoles } from '../enums/userRoles';
 import { Router } from '@angular/router';
 import { CourseCreationDto } from '../dtos/courseCreationDto';
 import { CourseModifyDto } from '../dtos/courseModifyDto';
+import { switchMap } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseService {
   private url: string = "http://localhost:12212/courses"
+  private pickClassUrl: string = "http://localhost:12212/pickCourse"
   constructor(
     private httpClient: HttpClient,
     private userService: UserService,
@@ -19,20 +21,14 @@ export class CourseService {
   ) { }
 
   getCourses() {
-    let userRole: UserRoles | undefined;
-    this.userService.getUserRole().subscribe({
-      next: (role) => {
-        userRole = role;
-      },
-      error: (err) => {
-        this.router.navigateByUrl("/login");
+    return this.userService.getUserRole().pipe(switchMap((role) => {
+      if(role.role === UserRoles.Admin) {
+        return this.httpClient.get<CourseDetailsDto[]>(`${this.url}/`, {withCredentials: true});
+      } else{
+        return this.httpClient.get<CourseDetailsDto[]>(`${this.url}/active`, {withCredentials: true});
       }
-    });
-    if(userRole === UserRoles.Admin) {
-      return this.httpClient.get<CourseDetailsDto[]>(`${this.url}/`, {withCredentials: true});
-    } else{
-      return this.httpClient.get<CourseDetailsDto[]>(`${this.url}/active`, {withCredentials: true});
-    }
+    }));
+    
   }
 
   getPickedCourses() {
@@ -48,10 +44,27 @@ export class CourseService {
   }
 
   updateCourse(courseId: string, courseData: CourseModifyDto){
-    return this.httpClient.patch(`${this.url}/${courseId}`, courseData, {withCredentials: true, responseType: "json"});
+    return this.httpClient.put(`${this.url}/${courseId}`, courseData, {withCredentials: true, responseType: "json"});
   }
 
   deleteCourse(courseId: string){
     return this.httpClient.delete(`${this.url}/${courseId}`, {withCredentials: true, responseType: "json"});
+  }
+
+  pickCourse(courseId: string){
+    return this.httpClient.post(`${this.pickClassUrl}/${courseId}`, 
+      {},
+      {
+        withCredentials: true
+      }
+    )
+  }
+
+  dropCourse(courseId: string){
+    return this.httpClient.delete(`${this.pickClassUrl}/${courseId}`, 
+      {
+        withCredentials: true
+      },
+    )
   }
 }

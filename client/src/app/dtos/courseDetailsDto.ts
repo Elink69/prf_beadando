@@ -9,6 +9,6 @@ export class CourseDetailsDto{
         public studentLimit: number,
         public teacherName: string,
         public isActive: boolean,
-        public classRoom: Classroom,
+        public classRoom: Classroom | null,
     ){}
 }

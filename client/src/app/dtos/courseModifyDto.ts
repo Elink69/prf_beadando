@@ -1,9 +1,10 @@
 export class CourseModifyDto{
     constructor(
-        public name: string | undefined,
-        public description: string | undefined,
-        public schedule: string[] | undefined,
-        public studentLimit: number | undefined,
-        public teacherName: string | undefined
+        public name: string,
+        public description: string,
+        public schedule: Date[],
+        public studentLimit: number,
+        public teacherName: string,
+        public isActive: boolean
     ){}
 }

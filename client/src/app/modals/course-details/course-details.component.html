@@ -1,0 +1,50 @@
+<h2 mat-dialog-title>Details of {{ data.name }}</h2>
+
+<mat-dialog-content class="data-details-content">
+  <mat-card>
+    <mat-card-content>
+      <p><strong>Description: </strong></p>
+      <p class="description">{{ data.description }}</p>
+
+      <div class="detail-row">
+        <span><strong>Teacher: </strong></span>
+        <span>{{ data.teacherName }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span><strong>Classroom: </strong></span>
+        @if (data.classRoom){
+          <span>{{ data.classRoom.classRoomId }}</span>
+        }@else {
+          <span>No classroom data</span>
+        }
+        
+      </div>
+
+      <div class="detail-row">
+        <span><strong>Student Limit: </strong></span>
+        <span>{{ data.studentLimit }}</span>
+      </div>
+
+      <div class="detail-row">
+        <span><strong>Status: </strong></span>
+        <mat-chip [ngClass]="data.isActive ? 'chip-active' : 'chip-inactive'" selected>
+          {{ data.isActive ? 'Active' : 'Inactive' }}
+        </mat-chip>
+      </div>
+
+      <div class="detail-row schedule">
+        <span><strong>Schedule: </strong></span>
+        <ul>
+          <li *ngFor="let time of data.schedule">
+            {{ time | date: 'fullDate' }} - {{ time | date: 'shortTime' }}
+          </li>
+        </ul>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
