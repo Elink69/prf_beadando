@@ -20,7 +20,6 @@ export const configurePickCourseRouter = (
                     return res.status(500).send({error: "Internal Server Error"});
                 }
             } catch (error: any){
-                console.log(error.errInfo.details.schemaRulesNotSatisfied)
                 res.status(500).send({error:error instanceof Error? error.message: "Unknown error"});
             }
         });

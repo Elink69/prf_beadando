@@ -79,7 +79,13 @@ export class CourseComponent {
           this.toastr.success("Course sign-up successful", "Pick Course")
           this.refreshData()
         },
-        error: (err) => this.toastr.error("Error while picking course", "Pick Course")
+        error: (resp: {error: {error: string}}) => {
+          if (resp.error.error === "Course is full"){
+            this.toastr.error("The course is full", "Pick Course")
+          }else {
+            this.toastr.error("Error while picking course", "Pick Course")
+          }
+        }
       })
     
   }
