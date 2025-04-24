@@ -5,6 +5,7 @@ export class CourseModifyDto{
         public schedule: Date[],
         public studentLimit: number,
         public teacherName: string,
+        public classroomId: string,
         public isActive: boolean,
     ){}
 }

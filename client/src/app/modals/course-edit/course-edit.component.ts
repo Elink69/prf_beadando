@@ -19,12 +19,14 @@ import { ToastrService } from 'ngx-toastr';
 import { Classroom } from '../../dtos/classroom';
 import { CourseService } from '../../services/course.service';
 import { CourseCreationDto } from '../../dtos/courseCreationDto';
+import { CourseDetailsDto } from '../../dtos/courseDetailsDto';
+import { CourseModifyDto } from '../../dtos/courseModifyDto';
 
 @Component({
-  selector: 'app-course-creation-dialog',
-  templateUrl: './course-creation.component.html',
-  styleUrls: ['./course-creation.component.scss'],
+  selector: 'app-course-edit',
   standalone: true,
+  templateUrl: './course-edit.component.html',
+  styleUrl: './course-edit.component.scss',
   providers: [ { provide: DateAdapter, useClass: NativeDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS }],
   imports: [
@@ -43,7 +45,7 @@ import { CourseCreationDto } from '../../dtos/courseCreationDto';
       MatNativeDateModule,
     ],
 })
-export class CourseCreationComponent {
+export class CourseEditComponent {
   courseForm: FormGroup;
 
   userData!: UserDetailsDto
@@ -63,25 +65,25 @@ export class CourseCreationComponent {
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<CourseCreationComponent>,
+    private dialogRef: MatDialogRef<CourseEditComponent>,
     private toastr: ToastrService,
     private userService: UserService,
     private courseService: CourseService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: CourseDetailsDto
   ) {
     this.updateData()
     this.courseForm = this.fb.group({
-      courseId: ['', Validators.required],
-      name: ['', Validators.required],
-      description: ['', [Validators.required]],
-      teacherId: ['', Validators.required],
-      classRoomId: ['', [Validators.required]],
-      studentLimit: [null, [Validators.required, Validators.min(1)]],
-      dayOfWeek: [null, Validators.required],
-      time: ['', Validators.required],
+      courseId: [data.courseId, Validators.required],
+      name: [data.name, Validators.required],
+      description: [data.description, [Validators.required]],
+      teacherId: [data.teacherName, Validators.required],
+      classRoomId: [data.classRoom?.classRoomId, [Validators.required]],
+      studentLimit: [data.studentLimit, [Validators.required, Validators.min(1)]],
+      dayOfWeek: [''],
+      time: [''],
       dateRange: this.fb.group({
-        startDate: [null, Validators.required],
-        endDate: [null, Validators.required]
+        startDate: [null],
+        endDate: [null]
       })
     });
   }
@@ -119,39 +121,42 @@ export class CourseCreationComponent {
       const { dayOfWeek, time, dateRange, ...data } = this.courseForm.value;
       const [hour, minute] = time.split(':').map(Number);
       const start = dateRange.startDate;
-      const end   = dateRange.endDate;
+      const end = dateRange.endDate;
 
-      const occurrences: Date[] = [];
-      let current = new Date(start);
-      const delta = (dayOfWeek - current.getDay() + 7) % 7;
-      current.setDate(current.getDate() + delta);
-      current.setHours(hour, minute, 0, 0);
-
-      while (current <= end) {
-        occurrences.push(new Date(current));
-        current.setDate(current.getDate() + 7);
-      }
-
-      const utcOccurrences = occurrences.map(date => date.toISOString());
-
-      const newCourse: CourseCreationDto = {
-        courseId: data["courseId"],
+      const modifiedCourse: CourseModifyDto = {
         description: data["description"],
         name: data["name"],
         studentLimit: data["studentLimit"],
         teacherName: data["teacherId"],
-        schedule: utcOccurrences,
+        isActive: this.data.isActive,
+        schedule: this.data.schedule,
         classroomId: data["classRoomId"]
       };
 
-      this.courseService.createCourse(newCourse).subscribe(
+      if(dayOfWeek && time && dateRange){
+        const occurrences: Date[] = [];
+        let current = new Date(start);
+        const delta = (dayOfWeek - current.getDay() + 7) % 7;
+        current.setDate(current.getDate() + delta);
+        current.setHours(hour, minute, 0, 0);
+  
+        while (current <= end) {
+          occurrences.push(new Date(current));
+          current.setDate(current.getDate() + 7);
+        }
+  
+        modifiedCourse.schedule = occurrences;
+      } 
+
+
+      this.courseService.updateCourse(this.data.courseId, modifiedCourse).subscribe(
         {
           next: _ => this.toastr.success("Created new course", "Course creation"),
           error: _ => this.toastr.error("Couldn't create new course", "Course creation")
         }
       )
 
-      this.dialogRef.close(newCourse);
+      this.dialogRef.close(modifiedCourse);
     }
   }
 }

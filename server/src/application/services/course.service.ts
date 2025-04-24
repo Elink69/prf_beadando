@@ -110,16 +110,16 @@ export const getCourseByIdAsync = async (courseId: string): Promise<CourseDetail
 
 export const updateCourseAsync = async (courseDto: CourseModifyDto, courseId: string): Promise<void> => {
     const currentCourse = await Course.findOne({courseId: courseId});
-    if(currentCourse){
+    const currentClassroomCourse = await ClassroomCourse.findOne({courseId: courseId})
+    if(currentCourse && currentClassroomCourse){
       currentCourse.name = courseDto.name;
       currentCourse.description = courseDto.description;
-      currentCourse.schedule = [];
-      courseDto.schedule?.forEach((dateString) => {
-          currentCourse.schedule.push(new Date(dateString));
-      });
+      currentCourse.schedule = courseDto.schedule;
       currentCourse.studentLimit = courseDto.studentLimit;
       currentCourse.teacherName = courseDto.teacherName;
-      currentCourse.isActive = courseDto.isActive
+      currentCourse.isActive = courseDto.isActive;
+      currentClassroomCourse.classroomId = courseDto.classroomId;
+      await currentClassroomCourse.save();
       await currentCourse.save();
     }
 }

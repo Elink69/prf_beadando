@@ -57,6 +57,11 @@
             <button mat-icon-button  (click)="viewDetails(course)">
               <mat-icon class="info-icon">info</mat-icon>
             </button>
+            @if (userData && (userData.role === 0 || userData.email === course.teacherName)){
+              <button mat-icon-button  (click)="editCourse(course)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            }
           }
           
         </td>

@@ -125,7 +125,7 @@ export const configureCourseRoutes = (
             }
             const currentUser = req.user as IUser
             
-            if (!checkUserRole(req, UserRoles.Admin) && currentUser.name !== currentCourse.teacherName){
+            if (!checkUserRole(req, UserRoles.Admin) && currentUser.email !== currentCourse.teacherName){
                 return res.status(403).send({error:"Teachers can only modify their own courses"});
             }
 

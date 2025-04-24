@@ -13,6 +13,8 @@ import { CourseModifyDto } from '../dtos/courseModifyDto';
 import { ToastrService } from 'ngx-toastr';
 import { UserService } from '../services/user.service';
 import { CourseCreationComponent } from '../modals/course-creation/course-creation.component';
+import { UserDetailsDto } from '../dtos/userDetailsDto';
+import { CourseEditComponent } from '../modals/course-edit/course-edit.component';
 
 @Component({
   selector: 'app-course',
@@ -29,6 +31,7 @@ import { CourseCreationComponent } from '../modals/course-creation/course-creati
 })
 export class CourseComponent {
   readonly dialog = inject(MatDialog);
+  userData!: UserDetailsDto
   role: UserRoles = UserRoles.Student;
   allClasses = new MatTableDataSource<CourseDetailsDto>();
   pickedClasses: string[] = []
@@ -62,6 +65,10 @@ export class CourseComponent {
       next: (role) => {
         this.role = role.role
       },
+      error: (_) => this.toastr.error("Couldn't retrieve user info", "User Info")
+    })
+    this.userService.getUserInfo().subscribe({
+      next: data => this.userData = data,
       error: (_) => this.toastr.error("Couldn't retrieve user info", "User Info")
     })
   }
@@ -101,6 +108,7 @@ export class CourseComponent {
       course.schedule,
       course.studentLimit,
       course.teacherName,
+      course.classRoom?.classRoomId!,
       true
     )
     this.courseService.updateCourse(course.courseId, modifyData).subscribe({
@@ -127,10 +135,17 @@ export class CourseComponent {
       data: {userRole: this.role},
       width: "50rem"
     })
-    this.refreshData();
+    dialogRef.afterClosed().subscribe(
+      {
+        next: _ => this.refreshData()
+      }
+    )
   }
 
-  createCourse() {
-    throw new Error('Method not implemented.');
+  editCourse(courseData: CourseDetailsDto) {
+    const dialogRef = this.dialog.open(CourseEditComponent, {
+      data: courseData,
+      width: "50rem"
+    });
   }
 }
