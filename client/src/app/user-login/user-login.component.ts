@@ -7,6 +7,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from "@angular/material/button"; 
 import { UserService } from '../services/user.service';
 import { Router, RouterModule } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-user-login',
@@ -28,7 +29,8 @@ export class UserLoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
   }
 
@@ -48,6 +50,7 @@ export class UserLoginComponent implements OnInit {
           }
         },
         error: (err) => {
+          this.toastr.error("Email or password is incorrect", "Login failed")
           console.log(err)
         }
       });

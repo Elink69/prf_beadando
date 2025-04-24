@@ -6,7 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  const toastr = inject(ToastrService);
   return inject(UserService).checkauth().pipe(map(isAuthenticated => {
     if (!isAuthenticated) {
       router.navigateByUrl("/login");

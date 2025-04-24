@@ -1,5 +1,12 @@
 <mat-card class="table-card">
-  <mat-card-title class="title">Courses</mat-card-title>
+  <mat-card-title class="title-container">
+    <span class="title">Courses</span>
+    @if (role <= 1) {
+      <button mat-fab color="primary" class="fab-button"  matTooltip="Add New Course" (click)="openCourseCreationDialog()">
+        <mat-icon>add</mat-icon>
+      </button>
+    }
+  </mat-card-title>
   <div class="table-container">
     <table mat-table [dataSource]="allClasses" class="mat-elevation-z8">
 

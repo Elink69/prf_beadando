@@ -1,0 +1,44 @@
+.data-details-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.5rem;
+
+  .full-width {
+    width: 100%;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  .schedule-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding-top: 1rem;
+
+    > div {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      align-self: start;
+    }
+  }
+
+  mat-slide-toggle {
+    margin-top: 1rem;
+  }
+}
+
+mat-dialog-actions {
+  padding-top: 1rem;
+
+  button + button {
+    margin-left: 1rem;
+  }
+}

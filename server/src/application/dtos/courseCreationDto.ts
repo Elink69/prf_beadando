@@ -5,7 +5,8 @@ export class CourseCreationDto {
         public description: string,
         public schedule: string[],
         public studentLimit: number,
-        public teacherName: string
+        public teacherName: string,
+        public classroomId: string
     ){}
    
 }

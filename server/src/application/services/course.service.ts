@@ -1,4 +1,4 @@
-import { Classroom } from "../../domain/entities/classroom";
+import { Classroom, IClassroom } from "../../domain/entities/classroom";
 import { ClassroomCourse } from "../../domain/entities/classroomCourse";
 import { Course } from "../../domain/entities/course"
 import { PickedCourse } from "../../domain/entities/pickedCourse";
@@ -137,17 +137,27 @@ export const createCourseAsync = async (courseDto: CourseCreationDto, role: User
         studentLimit: courseDto.studentLimit,
         teacherName: courseDto.teacherName
     });
+    const newClassroomCourse = new ClassroomCourse({
+      classroomId: courseDto.classroomId,
+      courseId: courseDto.courseId
+    })
     if(role === UserRoles.Admin){
         newCourse.isActive = true;
     }else if(role === UserRoles.Teacher){
         newCourse.isActive = false;
     }
 
+    const classroomCourseInsert = await newClassroomCourse.save();
     const insertResult = await newCourse.save();
-    return !!insertResult;
+    return !!insertResult && !!classroomCourseInsert;
 }
 
 export const deleteCourseAsync = async (courseId: string): Promise<boolean> => {
     const deleteResult = await Course.deleteOne({courseId: courseId})
     return !!deleteResult
 };
+
+export const getClassroomsAsync = async (): Promise<IClassroom[]> => {
+  const classrooms = await Classroom.find({});
+  return classrooms
+}

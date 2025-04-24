@@ -11,6 +11,8 @@ import { CourseDetailsComponent } from '../modals/course-details/course-details.
 import { UserRoles } from '../enums/userRoles';
 import { CourseModifyDto } from '../dtos/courseModifyDto';
 import { ToastrService } from 'ngx-toastr';
+import { UserService } from '../services/user.service';
+import { CourseCreationComponent } from '../modals/course-creation/course-creation.component';
 
 @Component({
   selector: 'app-course',
@@ -20,7 +22,7 @@ import { ToastrService } from 'ngx-toastr';
     MatListModule,
     MatTableModule,
     MatCardModule,
-    MatDialogModule
+    MatDialogModule,
   ],
   templateUrl: './course.component.html',
   styleUrl: './course.component.scss'
@@ -35,6 +37,7 @@ export class CourseComponent {
   constructor(
     private courseService: CourseService,
     private toastr: ToastrService,
+    private userService: UserService
   ){
     this.refreshData();
   }
@@ -54,6 +57,12 @@ export class CourseComponent {
         });
       },
       error: (err) => this.toastr.error("Couldn't retrieve picked course data", "Picked Course Data")
+    })
+    this.userService.getUserRole().subscribe({
+      next: (role) => {
+        this.role = role.role
+      },
+      error: (_) => this.toastr.error("Couldn't retrieve user info", "User Info")
     })
   }
 
@@ -111,5 +120,17 @@ export class CourseComponent {
       },
       error: (err) => this.toastr.error("Error while dropping course", "Drop Course")
     })
+  }
+
+  openCourseCreationDialog() {
+    const dialogRef = this.dialog.open(CourseCreationComponent, {
+      data: {userRole: this.role},
+      width: "50rem"
+    })
+    this.refreshData();
+  }
+
+  createCourse() {
+    throw new Error('Method not implemented.');
   }
 }

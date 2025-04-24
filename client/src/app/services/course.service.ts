@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { CourseCreationDto } from '../dtos/courseCreationDto';
 import { CourseModifyDto } from '../dtos/courseModifyDto';
 import { switchMap } from 'rxjs'
+import { Classroom } from '../dtos/classroom';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class CourseService {
     private userService: UserService,
     private router: Router
   ) { }
+
+  getClassrooms(){
+    return this.httpClient.get<Classroom[]>(`${this.url}/classrooms`, {withCredentials: true})
+  }
 
   getCourses() {
     return this.userService.getUserRole().pipe(switchMap((role) => {

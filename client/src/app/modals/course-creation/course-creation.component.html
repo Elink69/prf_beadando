@@ -1,0 +1,75 @@
+<h2 mat-dialog-title>Create New Course</h2>
+
+<mat-dialog-content class="data-details-content">
+  <form [formGroup]="courseForm">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Course Id</mat-label>
+      <input matInput formControlName="courseId" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Course Name</mat-label>
+      <input matInput formControlName="name" required />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" rows="3"></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Teacher</mat-label>
+      <mat-select formControlName="teacherId">
+        <mat-option *ngFor="let teacher of teachers" [value]="teacher.email">
+          {{ teacher.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Classroom</mat-label>
+      <mat-select formControlName="classRoomId">
+        <mat-option *ngFor="let room of classrooms" [value]="room.classRoomId">
+          {{ room.classRoomId }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Student Limit</mat-label>
+      <input matInput type="number" formControlName="studentLimit" />
+    </mat-form-field>
+
+    <div class="schedule-section">
+      <h3>Schedule</h3>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Day of Week</mat-label>
+          <mat-select formControlName="dayOfWeek" required>
+            <mat-option *ngFor="let d of weekdays" [value]="d.value">
+              {{ d.view }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Class Time</mat-label>
+          <input matInput type="time" formControlName="time" required />
+        </mat-form-field>
+    
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>From – To</mat-label>
+          <mat-date-range-input [rangePicker]="rangePicker" formGroupName="dateRange" required>
+            <input matStartDate formControlName="startDate" placeholder="Start date" />
+            <input matEndDate   formControlName="endDate"   placeholder="End date" />
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+          <mat-date-range-picker #rangePicker></mat-date-range-picker>
+        </mat-form-field>
+      </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" (click)="submitCourse()" [disabled]="this.courseForm.invalid">Create</button>
+</mat-dialog-actions>

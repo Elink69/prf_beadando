@@ -52,6 +52,20 @@ export const configureCourseRoutes = (
             }
         });
 
+        courseRouter.get("/classrooms", async (req: Request, res: Response): Promise<any> => {
+          if(!req.isAuthenticated()){
+            return res.status(401).send({error:"You must be logged in to access that"});
+          }
+          if(!checkUserRole(req, UserRoles.Teacher)){
+            return res.status(403).send({error:"You don't have permission to access that"});
+          };
+          try{
+            return res.status(200).send(await courseService.getClassroomsAsync());
+          } catch (err) {
+            return res.status(500).send({error: (err instanceof Error ? err.message : "Unknown Error")});
+          }
+        });
+
         courseRouter.get("/:courseId", async (req: Request, res: Response): Promise<any> => {
             if(!req.isAuthenticated()){
                 return res.status(401).send({error:"You must be logged in to access that"});
@@ -162,6 +176,7 @@ export const configureCourseRoutes = (
                 return res.status(500).send(error instanceof Error ? {error: error.message}: {error: "Unknown error"});
             }
         });
-
+        
+      
         return courseRouter;
 }

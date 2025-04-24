@@ -1,7 +1,6 @@
 import { PassportStatic } from "passport";
 import { Strategy } from "passport-local";
 import { User, IUser } from "../../domain/entities/user";
-import { UserDetailsDto } from "../dtos/userDetailsDto";
 import { UserRoles } from "../../domain/enums/userRoles";
 import { Request } from "express";
 
@@ -23,8 +22,10 @@ export const configurePassport = (passport: PassportStatic): PassportStatic => {
         user.comparePassword(password, (error, isMatch) => {
           if (error){
             done("Incorrect username or password");
-          } else {
+          } else if (isMatch){
             done(null, user);
+          } else{
+            done("Incorrect password");
           }
         });
     }));
