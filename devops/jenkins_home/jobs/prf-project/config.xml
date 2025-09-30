@@ -32,27 +32,11 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.tasks.Shell>
-      <command>cd app/server &amp;&amp; npm install</command>
+      <command>cd app/server &amp;&amp; npm ci &amp;&amp; npm run build &amp;&amp; npm run test</command>
       <configuredLocalRules/>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
-      <command>cd app/server &amp;&amp; npm run build</command>
-      <configuredLocalRules/>
-    </hudson.tasks.Shell>
-    <hudson.tasks.Shell>
-      <command>cd app/server &amp;&amp; npm run test</command>
-      <configuredLocalRules/>
-    </hudson.tasks.Shell>
-    <hudson.tasks.Shell>
-      <command>cd app/client &amp;&amp; npm install</command>
-      <configuredLocalRules/>
-    </hudson.tasks.Shell>
-    <hudson.tasks.Shell>
-      <command>cd app/client &amp;&amp; npm run build</command>
-      <configuredLocalRules/>
-    </hudson.tasks.Shell>
-    <hudson.tasks.Shell>
-      <command>cd app/client &amp;&amp; npm run test</command>
+      <command>cd app/client &amp;&amp; npm ci &amp;&amp; npm run build &amp;&amp; npm run test</command>
       <configuredLocalRules/>
     </hudson.tasks.Shell>
   </builders>
