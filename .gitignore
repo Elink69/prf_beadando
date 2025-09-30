@@ -1,6 +1,26 @@
 
 # Created by https://www.gitignore.io/api/angular,node,vim,git,macos
 
+# Ignore secrets
+secrets/
+credentials.xml
+identity.key.enc
+identity.key
+
+# Ignore build history & caches
+jobs/*/builds/
+caches/
+logs/
+war/
+tools/
+fingerprints/
+workspace/
+updates/
+
+# Temporary files
+*.log
+*.tmp
+
 ### Angular ###
 ## Angular ##
 # compiled output
