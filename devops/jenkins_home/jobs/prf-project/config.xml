@@ -40,11 +40,19 @@
       <configuredLocalRules/>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
+      <command>cd app/server &amp;&amp; npm run test</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
       <command>cd app/client &amp;&amp; npm install</command>
       <configuredLocalRules/>
     </hudson.tasks.Shell>
     <hudson.tasks.Shell>
       <command>cd app/client &amp;&amp; npm run build</command>
+      <configuredLocalRules/>
+    </hudson.tasks.Shell>
+    <hudson.tasks.Shell>
+      <command>cd app/client &amp;&amp; npm run test</command>
       <configuredLocalRules/>
     </hudson.tasks.Shell>
   </builders>
