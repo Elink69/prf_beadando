@@ -6,6 +6,7 @@ secrets/
 credentials.xml
 identity.key.enc
 identity.key
+.terraform*
 
 # Ignore build history & caches
 jobs/*/builds/
