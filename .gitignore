@@ -26,7 +26,6 @@ updates/
 # compiled output
 **/build
 /tmp
-/app/**/*.js
 /app/**/*.js.map
 
 # dependencies

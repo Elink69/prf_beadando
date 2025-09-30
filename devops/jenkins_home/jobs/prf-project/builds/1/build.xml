@@ -1,5 +1,5 @@
 <?xml version='1.1' encoding='UTF-8'?>
-<build>
+<flow-build plugin="workflow-job@1549.vc8d7f497b_22f">
   <actions>
     <hudson.model.CauseAction>
       <causeBag class="linked-hash-map">
@@ -12,52 +12,22 @@
       </causeBag>
     </hudson.model.CauseAction>
     <jenkins.metrics.impl.TimeInQueueAction plugin="metrics@4.2.33-484.v2fcd689980d1">
-      <queuingDurationMillis>6</queuingDurationMillis>
+      <queuingDurationMillis>1</queuingDurationMillis>
       <blockedDurationMillis>0</blockedDurationMillis>
-      <buildableDurationMillis>4</buildableDurationMillis>
+      <buildableDurationMillis>0</buildableDurationMillis>
       <waitingDurationMillis>0</waitingDurationMillis>
     </jenkins.metrics.impl.TimeInQueueAction>
-    <hudson.plugins.git.util.BuildData plugin="git@5.7.0">
-      <buildsByBranchName>
-        <entry>
-          <string>refs/remotes/origin/main</string>
-          <hudson.plugins.git.util.Build>
-            <marked plugin="git-client@6.4.0">
-              <sha1>7f0b99d7f1a3fc711870d70a6040c4225c60edc3</sha1>
-              <branches class="list">
-                <hudson.plugins.git.Branch>
-                  <sha1 reference="../../../sha1"/>
-                  <name>refs/remotes/origin/main</name>
-                </hudson.plugins.git.Branch>
-              </branches>
-            </marked>
-            <revision reference="../marked"/>
-            <hudsonBuildNumber>1</hudsonBuildNumber>
-          </hudson.plugins.git.util.Build>
-        </entry>
-      </buildsByBranchName>
-      <lastBuild reference="../buildsByBranchName/entry/hudson.plugins.git.util.Build"/>
-      <remoteUrls>
-        <string>https://github.com/Elink69/prf_beadando.git</string>
-      </remoteUrls>
-    </hudson.plugins.git.util.BuildData>
-    <hudson.scm.SCMRevisionState_-None/>
+    <org.jenkinsci.plugins.workflow.libs.LibrariesAction plugin="pipeline-groovy-lib@766.v2b_e08c2e6ff2">
+      <libraries/>
+    </org.jenkinsci.plugins.workflow.libs.LibrariesAction>
   </actions>
-  <queueId>6</queueId>
-  <timestamp>1759250140067</timestamp>
-  <startTime>1759250140098</startTime>
-  <result>SUCCESS</result>
-  <duration>212627</duration>
+  <queueId>13</queueId>
+  <timestamp>1759256174622</timestamp>
+  <startTime>1759256174652</startTime>
+  <result>FAILURE</result>
+  <duration>799</duration>
   <charset>UTF-8</charset>
   <keepLog>false</keepLog>
-  <builtOn></builtOn>
-  <workspace>/var/jenkins_home/workspace/prf-project</workspace>
-  <hudsonVersion>2.516.3</hudsonVersion>
-  <scm class="hudson.plugins.git.GitChangeLogParser" plugin="git@5.7.0">
-    <authorOrCommitter>false</authorOrCommitter>
-    <showEntireCommitSummaryInChanges>true</showEntireCommitSummaryInChanges>
-  </scm>
-  <culprits class="java.util.Collections$UnmodifiableSet">
-    <c class="sorted-set"/>
-  </culprits>
-</build>
+  <completed>true</completed>
+  <checkouts class="hudson.util.PersistedList"/>
+</flow-build>

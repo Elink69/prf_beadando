@@ -1,152 +1,28 @@
 Started by user [8mha:////4MuocfCO+jIADSn3g9peS8j8/jr6Qm2BF8C8Nq6opzwIAAAAlx+LCAAAAAAAAP9b85aBtbiIQTGjNKU4P08vOT+vOD8nVc83PyU1x6OyILUoJzMv2y+/JJUBAhiZGBgqihhk0NSjKDWzXb3RdlLBUSYGJk8GtpzUvPSSDB8G5tKinBIGIZ+sxLJE/ZzEvHT94JKizLx0a6BxUmjGOUNodHsLgAzWEgZu/dLi1CL9xJTczDwAj6GcLcAAAAA=[0madmin
-Running as SYSTEM
-Building in workspace /var/jenkins_home/workspace/prf-project
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/prf-project/.git # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url https://github.com/Elink69/prf_beadando.git # timeout=10
-Fetching upstream changes from https://github.com/Elink69/prf_beadando.git
- > git --version # timeout=10
- > git --version # 'git version 2.39.5'
- > git fetch --tags --force --progress -- https://github.com/Elink69/prf_beadando.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/main^{commit} # timeout=10
-Checking out Revision 7f0b99d7f1a3fc711870d70a6040c4225c60edc3 (refs/remotes/origin/main)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 7f0b99d7f1a3fc711870d70a6040c4225c60edc3 # timeout=10
-Commit message: "Apply Course limit"
-First time build. Skipping changelog.
-[prf-project] $ /bin/sh -xe /tmp/jenkins672506389122909071.sh
-+ cd server
-+ npm install
-npm warn deprecated npmlog@5.0.1: This package is no longer supported.
-npm warn deprecated are-we-there-yet@2.0.0: This package is no longer supported.
-npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
-npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
-npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
-npm warn deprecated gauge@3.0.2: This package is no longer supported.
+org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+WorkflowScript: 40: Invalid parameter "artifatcs", did you mean "artifacts"? @ line 40, column 34.
+                   archiveArtifacts artifatcs: 'app/server/build/**/*', fingerprint: true
+                                    ^
 
-added 203 packages, and audited 204 packages in 26s
+WorkflowScript: 64: Invalid parameter "artifatcs", did you mean "artifacts"? @ line 64, column 34.
+                   archiveArtifacts artifatcs: 'app/client/dist/**/*', fingerprint: true
+                                    ^
 
-20 packages are looking for funding
-  run `npm fund` for details
+2 errors
 
-3 low severity vulnerabilities
-
-To address all issues, run:
-  npm audit fix
-
-Run `npm audit` for details.
-[prf-project] $ /bin/sh -xe /tmp/jenkins17859085183268621346.sh
-+ cd server
-+ npm run build
-
-> server@1.0.0 build
-> npx tsc
-
-[prf-project] $ /bin/sh -xe /tmp/jenkins17338705713948666508.sh
-+ cd client
-+ npm install
-npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
-npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
-npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
-
-added 947 packages, and audited 948 packages in 2m
-
-158 packages are looking for funding
-  run `npm fund` for details
-
-12 vulnerabilities (6 low, 4 moderate, 2 high)
-
-To address all issues, run:
-  npm audit fix
-
-Run `npm audit` for details.
-[prf-project] $ /bin/sh -xe /tmp/jenkins11226780111126080076.sh
-+ cd client
-+ npm run build
-
-> client@0.0.0 build
-> ng build
-
-❯ Building...
-✔ Building...
-Browser bundles      
-Initial chunk files   | Names                   |  Raw size | Estimated transfer size
-chunk-EQYTENBL.js     | -                       | 396.13 kB |                98.14 kB
-chunk-FAYPNF4J.js     | -                       |  75.43 kB |                18.74 kB
-main-MLF2R6FT.js      | main                    |  63.17 kB |                17.44 kB
-chunk-7DFYSEMH.js     | -                       |  39.68 kB |                 7.24 kB
-polyfills-FFHMD2TL.js | polyfills               |  34.52 kB |                11.28 kB
-chunk-LYSSZNW5.js     | -                       |  29.82 kB |                 5.63 kB
-chunk-6UOP3B7Z.js     | -                       |  12.56 kB |                 3.84 kB
-styles-PFJRHJWP.css   | styles                  |  12.36 kB |                 2.88 kB
-
-                      | Initial total           | 663.67 kB |               165.19 kB
-
-Lazy chunk files      | Names                   |  Raw size | Estimated transfer size
-chunk-LWFTXTI7.js     | course-component        | 155.88 kB |                27.46 kB
-chunk-ZQ5BO5SC.js     | -                       | 141.05 kB |                27.69 kB
-chunk-XCYQSHBV.js     | -                       |  61.45 kB |                10.18 kB
-chunk-5IZ3TFL7.js     | -                       |  34.46 kB |                 8.51 kB
-chunk-RDR5QBAI.js     | -                       |  10.53 kB |                 2.97 kB
-chunk-DNHITI74.js     | user-page-component     |   8.84 kB |                 2.73 kB
-chunk-C5RI452C.js     | homepage-component      |   4.97 kB |                 1.68 kB
-chunk-N4SKW3JD.js     | -                       |   4.54 kB |                 1.54 kB
-chunk-CHMP37FK.js     | user-register-component |   3.97 kB |                 1.43 kB
-chunk-WP55FASJ.js     | user-login-component    |   2.89 kB |                 1.07 kB
-
-
-Server bundles       
-Initial chunk files   | Names                   |  Raw size
-server.mjs            | server                  | 843.86 kB |                        
-chunk-RKAAVV3J.mjs    | -                       | 506.56 kB |                        
-chunk-3HJTAQYK.mjs    | -                       | 394.63 kB |                        
-polyfills.server.mjs  | polyfills.server        | 267.76 kB |                        
-chunk-CWJLLRYM.mjs    | -                       |  75.50 kB |                        
-chunk-5WQJGAKU.mjs    | -                       |  39.72 kB |                        
-chunk-QSZ762U3.mjs    | -                       |  29.86 kB |                        
-chunk-4PHKKBXD.mjs    | -                       |  12.59 kB |                        
-chunk-S6KH3LOX.mjs    | -                       |   2.77 kB |                        
-main.server.mjs       | main.server             | 510 bytes |                        
-
-Lazy chunk files      | Names                   |  Raw size
-chunk-ZZ6SEQEG.mjs    | course-component        | 155.95 kB |                        
-chunk-5WG2UXZG.mjs    | -                       | 141.11 kB |                        
-chunk-SVZPGKZD.mjs    | -                       |  61.48 kB |                        
-chunk-H4F3ZXOT.mjs    | -                       |  34.49 kB |                        
-chunk-FE3ZEMPP.mjs    | xhr2                    |  12.07 kB |                        
-chunk-LLFG3PX3.mjs    | -                       |  10.56 kB |                        
-chunk-T7RBV4GP.mjs    | user-page-component     |   8.91 kB |                        
-chunk-OBE33S2J.mjs    | homepage-component      |   5.04 kB |                        
-chunk-IHMQDFJF.mjs    | -                       |   4.58 kB |                        
-chunk-IEHFHSXW.mjs    | user-register-component |   4.04 kB |                        
-chunk-GQESDWRR.mjs    | user-login-component    |   2.96 kB |                        
-
-Prerendered 6 static routes.
-Application bundle generation complete. [31.220 seconds]
-
-▲ [WARNING] Deprecation [plugin angular-sass]
-
-    src/styles.scss:2:8:
-      2 │ @import 'ngx-toastr/toastr';
-        ╵         ^
-
-
-  Sass @import rules are deprecated and will be removed in Dart Sass 3.0.0.
-  
-  More info and automated migrator: https://sass-lang.com/d/import
-
-  The plugin "angular-sass" was triggered by this import
-
-    angular:styles/global:styles:2:8:
-      2 │ @import 'src/styles.scss';
-        ╵         ~~~~~~~~~~~~~~~~~
-
-
-▲ [WARNING] bundle initial exceeded maximum budget. Budget 500.00 kB was not met by 163.67 kB with a total of 663.67 kB.
-
-
-Output location: /var/jenkins_home/workspace/prf-project/client/dist/client
-
-Finished: SUCCESS
+	at org.codehaus.groovy.control.ErrorCollector.failIfErrors(ErrorCollector.java:309)
+	at org.codehaus.groovy.control.CompilationUnit.applyToPrimaryClassNodes(CompilationUnit.java:1107)
+	at org.codehaus.groovy.control.CompilationUnit.doPhaseOperation(CompilationUnit.java:624)
+	at org.codehaus.groovy.control.CompilationUnit.processPhaseOperations(CompilationUnit.java:602)
+	at org.codehaus.groovy.control.CompilationUnit.compile(CompilationUnit.java:579)
+	at groovy.lang.GroovyClassLoader.doParseClass(GroovyClassLoader.java:323)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:293)
+	at PluginClassLoader for script-security//org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.GroovySandbox$Scope.parse(GroovySandbox.java:162)
+	at PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.CpsGroovyShell.doParse(CpsGroovyShell.java:188)
+	at PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.CpsGroovyShell.reparse(CpsGroovyShell.java:173)
+	at PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.CpsFlowExecution.parseScript(CpsFlowExecution.java:656)
+	at PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.CpsFlowExecution.start(CpsFlowExecution.java:602)
+	at PluginClassLoader for workflow-job//org.jenkinsci.plugins.workflow.job.WorkflowRun.run(WorkflowRun.java:341)
+	at hudson.model.ResourceController.execute(ResourceController.java:101)
+	at hudson.model.Executor.run(Executor.java:454)
+Finished: FAILURE
