@@ -1,0 +1,8 @@
+Elindítani a dockert
+Elindítani a minikube-ot
+minikube dashboard
+terraform init
+terraform apply
+minikube tunnel
+
+http://fakeneptun.com böngészőből
