@@ -17,7 +17,7 @@ export const configurePassport = (passport: PassportStatic): PassportStatic => {
     passport.use("local", new Strategy(async (email, password, done) => {
         const user = await User.findOne({email: email});
         if(!user){
-            return done("Incorrect username or password");
+            return done("User doesn't exist");
         }
         user.comparePassword(password, (error, isMatch) => {
           if (error){

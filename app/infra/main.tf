@@ -37,24 +37,21 @@ resource "kubernetes_namespace" "app" {
 # MongoDB
 #########################
 
-resource "docker_image" "mongo_restore" {
-  name = "fakeneptun-mongo-restore:latest"
+resource "docker_image" "custom_mongo" {
+  name         = "custom_mongo:latest"
   build {
-    context = "${path.module}/../database"
+    context    = "${path.module}/../database"
   }
 }
 
-resource "null_resource" "load_mongo_restore_image" {
-  depends_on = [
-    docker_image.mongo_restore
-  ]
-
-  provisioner "local-exec" {
+resource "null_resource" "load_custom_mongo" {
+  depends_on = [ docker_image.custom_mongo]
+   provisioner "local-exec" {
   command = <<EOT
 $ErrorActionPreference = "Stop"
 $MINIKUBE_IP = (minikube -p ${var.minikube_profile} ip)
 Write-Output "minikube ip: $MINIKUBE_IP"
-minikube -p ${var.minikube_profile} image load ${docker_image.mongo_restore.name}
+minikube -p ${var.minikube_profile} image load ${docker_image.custom_mongo.name}
 EOT
   interpreter = ["PowerShell", "-Command"]
   }
@@ -77,6 +74,7 @@ resource "kubernetes_persistent_volume_claim" "mongo_pvc" {
 }
 
 resource "kubernetes_deployment" "mongo" {
+  depends_on = [ null_resource.load_custom_mongo, kubernetes_persistent_volume_claim.mongo_pvc]
   metadata {
     name      = "mongo"
     namespace = kubernetes_namespace.app.metadata[0].name
@@ -87,30 +85,46 @@ resource "kubernetes_deployment" "mongo" {
 
   spec {
     replicas = 1
+
     selector {
       match_labels = {
         app = "mongo"
       }
     }
+
     template {
       metadata {
         labels = {
           app = "mongo"
         }
       }
+
       spec {
         container {
           name  = "mongo"
-          image = "mongo:6.0"
-          args  = []
+          image = docker_image.custom_mongo.name
+          image_pull_policy = "IfNotPresent"
+
           port {
             container_port = 27017
           }
+
+          env {
+            name  = "MONGO_INITDB_ROOT_USERNAME"
+            value = "root"
+          }
+
+          env {
+            name  = "MONGO_INITDB_ROOT_PASSWORD"
+            value = "password"
+          }
+
           volume_mount {
             name       = "mongo-data"
             mount_path = "/data/db"
           }
         }
+
         volume {
           name = "mongo-data"
           persistent_volume_claim {
@@ -127,47 +141,19 @@ resource "kubernetes_service" "mongo" {
     name      = "mongo"
     namespace = kubernetes_namespace.app.metadata[0].name
   }
+
   spec {
     selector = {
       app = "mongo"
     }
+
     port {
       port        = 27017
       target_port = 27017
     }
+
     type = "ClusterIP"
   }
-}
-
-resource "kubernetes_job" "mongo_restore" {
-  metadata {
-    name      = "mongo-restore"
-    namespace = kubernetes_namespace.app.metadata[0].name
-  }
-  spec {
-    backoff_limit = 1
-    template {
-      metadata {
-        labels = {
-          job = "mongo-restore"
-        }
-      }
-      spec {
-        restart_policy = "Never"
-
-        container {
-          name  = "restore"
-          image = "fakeneptun-mongo-restore:latest"
-          image_pull_policy = "IfNotPresent"
-        }
-      }
-    }
-  }
-
-  depends_on = [
-    kubernetes_deployment.mongo,
-    null_resource.load_mongo_restore_image
-  ]
 }
 
 ##########################
@@ -181,7 +167,7 @@ resource "docker_image" "server" {
 }
 
 resource "null_resource" "load_backend_image" {
-  depends_on = [ docker_image.server ]
+  depends_on = [ docker_image.server, kubernetes_deployment.mongo ]
    provisioner "local-exec" {
   command = <<EOT
 $ErrorActionPreference = "Stop"
@@ -194,7 +180,7 @@ EOT
 }
 
 resource "kubernetes_deployment" "backend" {
-  depends_on = [ null_resource.load_backend_image, kubernetes_job.mongo_restore ]
+  depends_on = [ null_resource.load_backend_image]
   metadata {
     name      = "backend"
     namespace = kubernetes_namespace.app.metadata[0].name
@@ -223,7 +209,7 @@ resource "kubernetes_deployment" "backend" {
           }
           env {
             name  = "DB_URI"
-            value = "mongodb://${kubernetes_service.mongo.metadata[0].name}"
+            value = "mongodb://root:password@${kubernetes_service.mongo.metadata[0].name}:27017/fakeNeptun?authSource=admin"
           }
         }
       }

@@ -8,9 +8,11 @@ output "minikube_instructions" {
   value = <<EOT
 1) Nézd meg az external IP-t, amit az nginx kapott 
    kubectl get svc -n fakeneptun 
-2) Add hozzá ezt a sort a /etc/hosts fájlhoz (Windows: C:/Windows/System32/drivers/etc/hosts)
-   <NGINX_IP> fakeneptun.com
+2) Add hozzá ezeket a sorokat a /etc/hosts fájlhoz (Windows: C:/Windows/System32/drivers/etc/hosts)
+   <NGINX_IP> fakeneptun.com (pl.: 127.0.0.1 fakeneptun.com)
+   <NGINX_IP> prometheus.fakeneptun.com (pl.: 127.0.0.1 prometheus.fakeneptun.com)
   
-  Ezek után böngészőből elérhető az alkalmazás a http://fakeneptun.com címen
+  Ezek után böngészőből elérhető az alkalmazás a http://fakeneptun.com címen 
+  A prometheus pedig a http://prometheus.fakeneptun.com címen
 EOT
 }
