@@ -41,15 +41,8 @@ const metricsMiddleware = promBundle({
 
 
 dotenv.config();
-let { DB_URI } = process.env;
+const { DB_URI } = process.env;
 
-
-if (process.env.NODE_ENV === "test") {
-  // Use in-memory MongoDB for testing
-  MongoMemoryServer.create().then((server) => {
-    DB_URI = server.getUri();
-  });
-}
 if (process.env.NODE_ENV !== "test"){
   if(!DB_URI){
       console.error(
