@@ -44,6 +44,7 @@ dotenv.config();
 const { DB_URI } = process.env;
 
 if (process.env.NODE_ENV !== "test"){
+  console.log("NEM TESZT")
   if(!DB_URI){
       console.error(
           "No DB_URI environment variable found"
@@ -83,6 +84,7 @@ app.use(bodyParser.json())
 
 app.use(cookieParser());
 
+if (process.env.NODE_ENV !== "test"){
 app.use(expressSession({
     secret: "testSecret",
     resave: false,
@@ -91,6 +93,14 @@ app.use(expressSession({
       mongoUrl: DB_URI
     })
 }));
+}
+else{
+  app.use(expressSession({
+    secret: "testSecret",
+    resave: false,
+    saveUninitialized: false,
+}));
+}
 
 app.use(passport.initialize());
 app.use(passport.session());
