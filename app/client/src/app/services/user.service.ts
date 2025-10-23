@@ -4,12 +4,14 @@ import { UserDetailsDto } from '../dtos/userDetailsDto';
 import { UserCreationDto } from '../dtos/userCreationDto';
 import { UserRoles } from '../enums/userRoles';
 import { UserModifyDto } from '../dtos/userModifyDto';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private url = "http://localhost:12212/users";
+  private backendBase = environment.BACKEND_BASE;
+  private url = `${this.backendBase}/users`;
 
   constructor(private httpClient: HttpClient) { }
 

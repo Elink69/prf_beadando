@@ -17,57 +17,11 @@ terraform {
 }
 
 provider "docker" {
+    host = "npipe:////./pipe/docker_engine"
 }
 
 provider "kubernetes" {
   config_path = "~/.kube/config"
-}
-
-#########################
-# Build Docker images
-#########################
-resource "docker_image" "server" {
-  name         = "fakeneptun-server:latest"
-  build {
-    context    = "${path.module}/../server"
-  }
-}
-
-resource "docker_image" "client" {
-  name         = "fakeneptun-client:latest"
-  build {
-    context    = "${path.module}/../client"
-  }
-}
-
-resource "docker_image" "mongo_restore" {
-  name = "fakeneptun-mongo-restore:latest"
-  build {
-    context = "${path.module}/../database"
-  }
-}
-
-#########################
-# Load images into minikube
-#########################
-resource "null_resource" "minikube_load_images" {
-  depends_on = [
-    docker_image.server,
-    docker_image.client,
-    docker_image.mongo_restore
-  ]
-
-  provisioner "local-exec" {
-  command = <<EOT
-$ErrorActionPreference = "Stop"
-$MINIKUBE_IP = (minikube -p ${var.minikube_profile} ip)
-Write-Output "minikube ip: $MINIKUBE_IP"
-minikube -p ${var.minikube_profile} image load ${docker_image.server.name}
-minikube -p ${var.minikube_profile} image load ${docker_image.client.name}
-minikube -p ${var.minikube_profile} image load ${docker_image.mongo_restore.name}
-EOT
-  interpreter = ["PowerShell", "-Command"]
-  }
 }
 
 #########################
@@ -79,10 +33,33 @@ resource "kubernetes_namespace" "app" {
   }
 }
 
+#########################
+# MongoDB
+#########################
 
-#########################
-# MongoDB Deployment + PVC + Service
-#########################
+resource "docker_image" "mongo_restore" {
+  name = "fakeneptun-mongo-restore:latest"
+  build {
+    context = "${path.module}/../database"
+  }
+}
+
+resource "null_resource" "load_mongo_restore_image" {
+  depends_on = [
+    docker_image.mongo_restore
+  ]
+
+  provisioner "local-exec" {
+  command = <<EOT
+$ErrorActionPreference = "Stop"
+$MINIKUBE_IP = (minikube -p ${var.minikube_profile} ip)
+Write-Output "minikube ip: $MINIKUBE_IP"
+minikube -p ${var.minikube_profile} image load ${docker_image.mongo_restore.name}
+EOT
+  interpreter = ["PowerShell", "-Command"]
+  }
+}
+
 resource "kubernetes_persistent_volume_claim" "mongo_pvc" {
   metadata {
     name      = "mongo-pvc"
@@ -189,15 +166,35 @@ resource "kubernetes_job" "mongo_restore" {
 
   depends_on = [
     kubernetes_deployment.mongo,
-    null_resource.minikube_load_images
+    null_resource.load_mongo_restore_image
   ]
 }
 
-#########################
-# backend deployment (3 replicas)
-#########################
+##########################
+# BACKEND
+##########################
+resource "docker_image" "server" {
+  name         = "fakeneptun-server:latest"
+  build {
+    context    = "${path.module}/../server"
+  }
+}
+
+resource "null_resource" "load_backend_image" {
+  depends_on = [ docker_image.server ]
+   provisioner "local-exec" {
+  command = <<EOT
+$ErrorActionPreference = "Stop"
+$MINIKUBE_IP = (minikube -p ${var.minikube_profile} ip)
+Write-Output "minikube ip: $MINIKUBE_IP"
+minikube -p ${var.minikube_profile} image load ${docker_image.server.name}
+EOT
+  interpreter = ["PowerShell", "-Command"]
+  }
+}
+
 resource "kubernetes_deployment" "backend" {
-  depends_on = [ null_resource.minikube_load_images, kubernetes_job.mongo_restore ]
+  depends_on = [ null_resource.load_backend_image, kubernetes_job.mongo_restore ]
   metadata {
     name      = "backend"
     namespace = kubernetes_namespace.app.metadata[0].name
@@ -211,7 +208,10 @@ resource "kubernetes_deployment" "backend" {
     }
     template {
       metadata {
-        labels = { app = "backend" }
+        labels = {
+           app = "backend"
+         }
+         
       }
       spec {
         container {
@@ -223,9 +223,8 @@ resource "kubernetes_deployment" "backend" {
           }
           env {
             name  = "DB_URI"
-            value = kubernetes_service.mongo.metadata[0].name
+            value = "mongodb://${kubernetes_service.mongo.metadata[0].name}"
           }
-          # optional readiness/liveness probes can be added
         }
       }
     }
@@ -233,7 +232,7 @@ resource "kubernetes_deployment" "backend" {
 }
 
 resource "kubernetes_service" "backend" {
-  depends_on = [ null_resource.minikube_load_images ]
+  depends_on = [ null_resource.load_backend_image ]
   metadata {
     name      = "backend"
     namespace = kubernetes_namespace.app.metadata[0].name
@@ -249,11 +248,37 @@ resource "kubernetes_service" "backend" {
 }
 
 #########################
-# frontend deployment
-# stateless, choose 2 replicas (adjustable)
+# frontend
 #########################
+
+resource "docker_image" "client" {
+  name         = "fakeneptun-client:latest"
+  build {
+    context    = "${path.module}/../client"
+    build_args = {
+      BACKEND_BASE : "http://fakeneptun.com/api"
+    }
+  }
+}
+
+resource "null_resource" "load_frontend_image" {
+  depends_on = [
+    docker_image.client
+  ]
+
+  provisioner "local-exec" {
+  command = <<EOT
+$ErrorActionPreference = "Stop"
+$MINIKUBE_IP = (minikube -p ${var.minikube_profile} ip)
+Write-Output "minikube ip: $MINIKUBE_IP"
+minikube -p ${var.minikube_profile} image load ${docker_image.client.name}
+EOT
+  interpreter = ["PowerShell", "-Command"]
+  }
+}
+
 resource "kubernetes_deployment" "frontend" {
-  depends_on = [ null_resource.minikube_load_images, kubernetes_deployment.backend ]
+  depends_on = [ null_resource.load_frontend_image, kubernetes_deployment.backend ]
   metadata {
     name      = "frontend"
     namespace = kubernetes_namespace.app.metadata[0].name
@@ -267,7 +292,9 @@ resource "kubernetes_deployment" "frontend" {
     }
     template {
       metadata {
-        labels = { app = "frontend" }
+        labels = { 
+          app = "frontend"
+          }
       }
       spec {
         container {
@@ -277,10 +304,6 @@ resource "kubernetes_deployment" "frontend" {
           port {
             container_port = var.frontend_port
           }
-          env {
-            name  = "API_URL"
-            value = "http://${kubernetes_service.backend.metadata[0].name}:${var.backend_port}"
-          }
         }
       }
     }
@@ -288,7 +311,7 @@ resource "kubernetes_deployment" "frontend" {
 }
 
 resource "kubernetes_service" "frontend" {
-  depends_on = [ null_resource.minikube_load_images ]
+  depends_on = [ null_resource.load_frontend_image ]
   metadata {
     name      = "frontend"
     namespace = kubernetes_namespace.app.metadata[0].name
@@ -304,8 +327,7 @@ resource "kubernetes_service" "frontend" {
 }
 
 #########################
-# NGINX (reverse proxy) - routes host fakeneptun.com -> frontend service
-# Expose NGINX as NodePort so you can reach it from host (or use minikube tunnel)
+# NGINX (reverse proxy)
 #########################
 resource "kubernetes_config_map" "nginx_conf" {
   metadata {
@@ -316,20 +338,38 @@ resource "kubernetes_config_map" "nginx_conf" {
   data = {
     "default.conf" = <<-EOF
 server {
-    listen 80;
-    server_name fakeneptun.com;
+  listen 80;
+  server_name fakeneptun.com;
 
-    location / {
-        proxy_pass http://frontend.${kubernetes_namespace.app.metadata[0].name}.svc.cluster.local;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-    }
+  location /api/ {
+    rewrite ^/api(/.*)$ $1 break;
+    proxy_pass http://backend.fakeneptun.svc.cluster.local:12212;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+
+  location / {
+    rewrite ^([^.]*[^/])$ $1/ break;
+    proxy_pass http://frontend.fakeneptun.svc.cluster.local;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_redirect off;
+  }  
+} 
+
+server {
+  server_name prometheus.fakeneptun.com;
+
+  location / {
+    proxy_pass http://prometheus.fakeneptun.svc.cluster.local:9090;
+  }
 }
 EOF
   }
 }
 
 resource "kubernetes_deployment" "nginx" {
+  depends_on = [ kubernetes_deployment.frontend, kubernetes_deployment.backend ]
   metadata {
     name      = "nginx-proxy"
     namespace = kubernetes_namespace.app.metadata[0].name
@@ -369,6 +409,7 @@ resource "kubernetes_deployment" "nginx" {
 }
 
 resource "kubernetes_service" "nginx" {
+  depends_on = [ kubernetes_deployment.frontend, kubernetes_deployment.backend ]
   metadata {
     name      = "nginx-proxy"
     namespace = kubernetes_namespace.app.metadata[0].name
@@ -380,83 +421,76 @@ resource "kubernetes_service" "nginx" {
       target_port = 80
     }
     type = "LoadBalancer"
-    # Let k8s pick nodePort; you can pin it via node_port attribute if desired
   }
 }
 
-#########################
-# CoreDNS deployment (DNS server)
-# We'll run a CoreDNS instance that serves fakeneptun.com and points it to the minikube node IP
-# The Corefile uses the minikube IP; the null_resource earlier computed MINIKUBE_IP and exported to TF var via file?  We'll just
-# let the user set var.minikube_ip if needed. Terraform can't easily read the env var from previous local-exec provisioner,
-# so we expose var.minikube_ip in variables.tf and instruct user to set it or let the minikube load step print it.
-#########################
-resource "kubernetes_config_map" "coredns" {
+resource "kubernetes_config_map" "prometheus_config" {
   metadata {
-    name      = "fakeneptun-coredns"
+    name      = "prometheus-config"
     namespace = kubernetes_namespace.app.metadata[0].name
   }
 
   data = {
-    "Corefile" = <<-EOF
-fakeneptun.com:53 {
-    hosts {
-        ${var.minikube_ip} fakeneptun.com
-        fallthrough
-    }
-    forward . 8.8.8.8
-    log
-}
-. {
-    forward . 8.8.8.8
-    log
-}
+    "prometheus.yml" = <<-EOF
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: 'backend'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['backend.${kubernetes_namespace.app.metadata[0].name}.svc.cluster.local:${var.backend_port}']
 EOF
   }
 }
 
-resource "kubernetes_deployment" "coredns" {
+resource "kubernetes_deployment" "prometheus" {
   metadata {
-    name      = "fakeneptun-coredns"
+    name      = "prometheus"
     namespace = kubernetes_namespace.app.metadata[0].name
-    labels = { app = "fakeneptun-coredns" }
+    labels = {
+      app = "prometheus"
+    }
   }
 
   spec {
     replicas = 1
     selector {
-      match_labels = { app = "fakeneptun-coredns" }
+      match_labels = {
+        app = "prometheus"
+      }
     }
+
     template {
       metadata {
-        labels = { app = "fakeneptun-coredns" }
+        labels = {
+          app = "prometheus"
+        }
       }
+
       spec {
         container {
-          name  = "coredns"
-          image = "coredns/coredns:1.11.1"
-          args  = ["-conf", "/etc/coredns/Corefile"]
+          name  = "prometheus"
+          image = "prom/prometheus:v2.53.0"
+
+          args = [
+            "--config.file=/etc/prometheus/prometheus.yml",
+          ]
+
           port {
-            container_port = 53
-            protocol       = "UDP"
+            container_port = 9090
           }
-          port {
-            container_port = 53
-            protocol       = "TCP"
-          }
+
           volume_mount {
-            name       = "coredns-conf"
-            mount_path = "/etc/coredns"
+            name       = "config-volume"
+            mount_path = "/etc/prometheus/"
           }
         }
+
         volume {
-          name = "coredns-conf"
+          name = "config-volume"
           config_map {
-            name = kubernetes_config_map.coredns.metadata[0].name
-            items {
-              key  = "Corefile"
-              path = "Corefile"
-            }
+            name = kubernetes_config_map.prometheus_config.metadata[0].name
           }
         }
       }
@@ -464,28 +498,21 @@ resource "kubernetes_deployment" "coredns" {
   }
 }
 
-# Expose CoreDNS on NodePort 30053 (UDP & TCP)
-resource "kubernetes_service" "coredns" {
+resource "kubernetes_service" "prometheus" {
   metadata {
-    name      = "fakeneptun-coredns"
+    name      = "prometheus"
     namespace = kubernetes_namespace.app.metadata[0].name
   }
+
   spec {
-    selector = { app = "fakeneptun-coredns" }
-    port {
-      name       = "dns-udp"
-      port       = 53
-      target_port = 53
-      protocol    = "UDP"
+    type = "ClusterIP"
+    selector = {
+      app = "prometheus"
     }
+
     port {
-      name       = "dns-tcp"
-      port       = 53
-      target_port = 53
-      protocol    = "TCP"
+      port        = 9090
+      target_port = 9090
     }
-    type = "NodePort"
-    # node_port can be set; left to cluster to pick (on minikube it will pick >30000)
   }
 }
-

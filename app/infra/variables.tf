@@ -12,7 +12,21 @@ variable "minikube_profile" {
 variable "minikube_ip" {
   type    = string
   default = ""
-  description = "Optional: minikube ip. If empty, the null_resource will print it during apply; you can also run `minikube ip` and set it here to bake into CoreDNS config."
+}
+
+variable frontend_image_name {
+  type  = string
+  default = "fakeneptun-client:latest"
+}
+
+variable backend_image_name {
+  type  = string
+  default = "fakeneptun-server:latest"
+}
+
+variable mongo_restore_image_name {
+  type  = string
+  default = "fakeneptun-mongo-restore:latest"
 }
 
 variable "storage_class" {
@@ -22,7 +36,7 @@ variable "storage_class" {
 
 variable "backend_port" {
   type    = number
-  default = 3000
+  default = 12212
 }
 
 variable "frontend_port" {
@@ -33,4 +47,9 @@ variable "frontend_port" {
 variable "frontend_replicas" {
   type    = number
   default = 2
+}
+
+variable "backend_replicas" {
+  type    = number
+  default = 3
 }

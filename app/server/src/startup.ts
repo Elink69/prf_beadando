@@ -1,5 +1,5 @@
 import * as dotenv from "dotenv";
-import express from "express";
+import express, { NextFunction } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import expressSession from "express-session";
@@ -9,13 +9,39 @@ import { configurePassport } from "./application/auth/auth";
 import bodyParser from "body-parser";
 import { configureCourseRoutes } from "./application/controllers/course.controller";
 import { configurePickCourseRouter } from "./application/controllers/pickCourse.controller";
-import mongoose, { mongo } from 'mongoose';
+import mongoose from 'mongoose';
+import  MongoStore  from "connect-mongo";
+import promClient from "prom-client"
+import promBundle from "express-prom-bundle"
+
+const register = new promClient.Registry();
+
+promClient.collectDefaultMetrics({
+  register,
+  prefix: 'backend_'
+});
+
+const httpRequestTotal = new promClient.Counter({
+  name: 'http_requests_total',
+  help: 'Total number of HTTP requests',
+  labelNames: ['method', 'path', 'status_code']
+});
+
+register.registerMetric(httpRequestTotal);
+
+const metricsMiddleware = promBundle({
+  includeMethod: true, 
+ includePath: true, 
+ includeStatusCode: true, 
+ includeUp: true,
+ promRegistry: register,
+ autoregister: true
+});
+
 
 dotenv.config();
-
+ const { DB_URI } = process.env;
 if (process.env.NODE_ENV !== "test"){
-  const { DB_URI } = process.env;
-
   if(!DB_URI){
       console.error(
           "No DB_URI environment variable found"
@@ -32,6 +58,14 @@ if (process.env.NODE_ENV !== "test"){
 }
 
 const app = express();
+
+app.use((req, res, next) => {
+  httpRequestTotal.labels(req.method, req.path, `${res.statusCode}`)
+  .inc();
+  next();
+})
+
+app.use(metricsMiddleware)
 
 app.use(
     cors({
@@ -50,7 +84,10 @@ app.use(cookieParser());
 app.use(expressSession({
     secret: "testSecret",
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: DB_URI
+    })
 }));
 
 app.use(passport.initialize());

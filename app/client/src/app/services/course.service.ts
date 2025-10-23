@@ -8,13 +8,15 @@ import { CourseCreationDto } from '../dtos/courseCreationDto';
 import { CourseModifyDto } from '../dtos/courseModifyDto';
 import { switchMap } from 'rxjs'
 import { Classroom } from '../dtos/classroom';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseService {
-  private url: string = "http://localhost:12212/courses"
-  private pickClassUrl: string = "http://localhost:12212/pickCourse"
+  private backendBase: string = environment.BACKEND_BASE;
+  private url: string = `${this.backendBase}/courses`
+  private pickClassUrl: string = `${this.backendBase}/pickCourse`
   constructor(
     private httpClient: HttpClient,
     private userService: UserService,
