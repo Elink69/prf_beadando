@@ -93,7 +93,7 @@
             agent { label &quot;windows-agent&quot; }
             steps {
                 powershell &quot;&quot;&quot;
-                    &amp; &apos;C:\\Users\\buszo\\Desktop\\prf_beadando\\devops\\scripts\\launch-app.ps1&apos; -TerraformDir &apos;C:\\Users\\buszo\\Desktop\\prf_beadando\\app\\infra&apos;
+                    &amp; &apos;C:\\Users\\buszo\\Desktop\\prf_beadando\\devops\\scripts\\launch-app.ps1&apos; -TerraformDir &apos;&lt;FILL-IN&gt;&apos;
                 &quot;&quot;&quot;
             }
         }

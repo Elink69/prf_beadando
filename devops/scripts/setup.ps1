@@ -39,8 +39,6 @@ if (-not $javaCmd) {
     Write-Host "Java already installed: $($javaCmd.Source)" -ForegroundColor Green
 }
 
-$env:Path += ";C:\iac"
-
 Write-Host "`nVerifying installations..." -ForegroundColor Cyan
 try {
     $minikubeVersion = & minikube version
