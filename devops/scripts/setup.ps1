@@ -32,7 +32,7 @@ if (-not $javaCmd) {
     if ($javaCmd) {
         Write-Host "Java installed successfully: $($javaCmd.Source)" -ForegroundColor Green
     } else {
-        Write-Host "Failed to detect Java after installation. Please check manually." -ForegroundColor Red
+        Write-Host "Failed to detect Java after installation." -ForegroundColor Red
         exit 1
     }
 } else {
@@ -48,7 +48,8 @@ try {
     Write-Host "Minikube: $minikubeVersion"
     Write-Host "Terraform:`n$terraformVersionOut"
 } catch {
-    Write-Host "Could not verify minikube/terraform. Try opening a new PowerShell session."
+    Write-Host "Could not verify minikube/terraform."
+    exit 1
 }
 
 Write-Host "`nSetting up Jenkins agent..." -ForegroundColor Cyan
@@ -58,10 +59,10 @@ Set-Location $WorkDir
 $agentJar = Join-Path $WorkDir "agent.jar"
 $jnlpUrl = "$JenkinsMasterURL/computer/$AgentName/slave-agent.jnlp"
 
-Write-Host "Downloading Jenkins agent jar from $JenkinsMasterURL"
+Write-Host "Connecting Jenkins agent to $JenkinsMasterURL"
 Invoke-WebRequest -Uri "$JenkinsMasterURL/jnlpJars/agent.jar" -OutFile $agentJar -UseBasicParsing
 
-Write-Host "Registering Jenkins agent as a Windows service..." -ForegroundColor Cyan
+Write-Host "Start Jenkins Agent..." -ForegroundColor Cyan
 $serviceCmd = "java -jar C:\jenkins\agent.jar -url $JenkinsMasterURL -secret $JenkinsSecret -name $AgentName -webSocket -workDir $WorkDir"
 Start-Process powershell -Verb RunAs -ArgumentList "$serviceCmd"
 Write-Host "Jenkins agent started." -ForegroundColor Green
