@@ -1,15 +1,12 @@
+param (
+    [string]$TerraformDir = "..\app\infra"
+)
+
 $ErrorActionPreference = "Stop"
 
 Write-Host "Starting Minikube..."
 minikube start --memory=8g --cpus=4
 
-Write-Host "Starting Minikube dashboard in background..."
-Start-Process powershell -Verb RunAs -ArgumentList "minikube dashboard"
-
-Write-Host "Starting Minikube tunnel in background..."
-Start-Process powershell -Verb RunAs -ArgumentList "minikube tunnel"
-
-$TerraformDir = "..\app\infra"
 Write-Host "Changing directory to $TerraformDir"
 Set-Location $TerraformDir
 

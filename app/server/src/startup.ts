@@ -13,6 +13,7 @@ import mongoose from 'mongoose';
 import  MongoStore  from "connect-mongo";
 import promClient from "prom-client"
 import promBundle from "express-prom-bundle"
+import { MongoMemoryServer } from "mongodb-memory-server"
 
 const register = new promClient.Registry();
 
@@ -40,7 +41,15 @@ const metricsMiddleware = promBundle({
 
 
 dotenv.config();
- const { DB_URI } = process.env;
+let { DB_URI } = process.env;
+
+
+if (process.env.NODE_ENV === "test") {
+  // Use in-memory MongoDB for testing
+  MongoMemoryServer.create().then((server) => {
+    DB_URI = server.getUri();
+  });
+}
 if (process.env.NODE_ENV !== "test"){
   if(!DB_URI){
       console.error(
