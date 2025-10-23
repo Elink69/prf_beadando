@@ -1,0 +1,992 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-build plugin="workflow-job@1549.vc8d7f497b_22f">
+  <actions>
+    <hudson.model.CauseAction>
+      <causeBag class="linked-hash-map">
+        <entry>
+          <hudson.model.Cause_-UserIdCause>
+            <userId>admin</userId>
+          </hudson.model.Cause_-UserIdCause>
+          <int>1</int>
+        </entry>
+      </causeBag>
+    </hudson.model.CauseAction>
+    <jenkins.metrics.impl.TimeInQueueAction plugin="metrics@4.2.33-484.v2fcd689980d1">
+      <queuingDurationMillis>55</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>0</buildableDurationMillis>
+      <waitingDurationMillis>11</waitingDurationMillis>
+    </jenkins.metrics.impl.TimeInQueueAction>
+    <org.jenkinsci.plugins.workflow.libs.LibrariesAction plugin="pipeline-groovy-lib@766.v2b_e08c2e6ff2">
+      <libraries/>
+    </org.jenkinsci.plugins.workflow.libs.LibrariesAction>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.ExecutionModelAction plugin="pipeline-model-definition@2.2273.v643f36ed9e94">
+      <stagesUUID>f1c472c7-3f73-4d7c-ab39-d812eec56cf7</stagesUUID>
+      <pipelineDefs>
+        <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTPipelineDef plugin="pipeline-model-api@2.2273.v643f36ed9e94">
+          <stages>
+            <stages>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <agent>
+                  <agentType>
+                    <key>any</key>
+                  </agentType>
+                </agent>
+                <name>Checkout</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>git</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>branch</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-GStringValue>
+                                <value class="string">${env.BRANCH}</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-GStringValue>
+                            </entry>
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>url</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-GStringValue>
+                                <value class="string">${env.GITHUB_REPO}</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-GStringValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <agent>
+                  <agentType>
+                    <key>any</key>
+                  </agentType>
+                </agent>
+                <name>Install Server Dependencies</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>sh</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>script</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="string">cd app/server &amp;&amp; npm ci</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <agent>
+                  <agentType>
+                    <key>any</key>
+                  </agentType>
+                </agent>
+                <name>Test Server</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>sh</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>script</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="string">cd app/server &amp;&amp; npm run test</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <agent>
+                  <agentType>
+                    <key>any</key>
+                  </agentType>
+                </agent>
+                <name>Build Server</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>sh</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>script</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="string">cd app/server &amp;&amp; npm run build</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <agent>
+                  <agentType>
+                    <key>any</key>
+                  </agentType>
+                </agent>
+                <name>Archive Server Artifacts</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>archiveArtifacts</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>artifacts</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="string">app/server/build/**/*</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>fingerprint</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="boolean">true</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <agent>
+                  <agentType>
+                    <key>any</key>
+                  </agentType>
+                </agent>
+                <name>Install Client Dependencies</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>sh</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>script</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="string">cd app/client &amp;&amp; npm ci</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <agent>
+                  <agentType>
+                    <key>any</key>
+                  </agentType>
+                </agent>
+                <name>Test Client</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>sh</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>script</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="string">cd app/client &amp;&amp; npm run test</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <agent>
+                  <agentType>
+                    <key>any</key>
+                  </agentType>
+                </agent>
+                <name>Build Client</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>sh</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>script</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="string">cd app/client &amp;&amp; npm run build</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <agent>
+                  <agentType>
+                    <key>any</key>
+                  </agentType>
+                </agent>
+                <name>Archive Client Artifacts</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>archiveArtifacts</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>artifacts</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="string">app/client/dist/**/*</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>fingerprint</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="boolean">true</value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+                <agent>
+                  <variables class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue$ConstantValue">
+                    <value class="string">windows-agent</value>
+                  </variables>
+                  <agentType>
+                    <key>label</key>
+                  </agentType>
+                </agent>
+                <name>Run Host PowerShell Script</name>
+                <branches>
+                  <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                    <name>default</name>
+                    <steps>
+                      <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                        <name>powershell</name>
+                        <args class="org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTNamedArgumentList">
+                          <arguments class="linked-hash-map">
+                            <entry>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                                <key>script</key>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                              <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                                <value class="string">
+                    &amp; &apos;C:\Users\buszo\Desktop\prf_beadando\devops\scripts\launch-app.ps1&apos; -TerraformDir &apos;C:\Users\buszo\Desktop\prf_beadando\app\infra&apos;
+                </value>
+                              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                            </entry>
+                          </arguments>
+                        </args>
+                      </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStep>
+                    </steps>
+                  </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTBranch>
+                </branches>
+              </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTStage>
+            </stages>
+            <uuid>f1c472c7-3f73-4d7c-ab39-d812eec56cf7</uuid>
+          </stages>
+          <environment>
+            <variables class="linked-hash-map">
+              <entry>
+                <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                  <key>GITHUB_REPO</key>
+                </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                  <value class="string">https://github.com/Elink69/prf_beadando.git</value>
+                </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+              </entry>
+              <entry>
+                <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                  <key>BRANCH</key>
+                </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                  <value class="string">main</value>
+                </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+              </entry>
+            </variables>
+          </environment>
+          <agent>
+            <agentType>
+              <key>none</key>
+            </agentType>
+          </agent>
+          <tools>
+            <tools class="linked-hash-map">
+              <entry>
+                <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                  <key>nodejs</key>
+                </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTKey>
+                <org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+                  <value class="string">NodeJS20</value>
+                </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTValue_-ConstantValue>
+              </entry>
+            </tools>
+          </tools>
+        </org.jenkinsci.plugins.pipeline.modeldefinition.ast.ModelASTPipelineDef>
+      </pipelineDefs>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.ExecutionModelAction>
+    <org.jenkinsci.plugins.workflow.cps.EnvActionImpl plugin="workflow-cps@4209.v83c4e257f1e9">
+      <env class="tree-map"/>
+    </org.jenkinsci.plugins.workflow.cps.EnvActionImpl>
+    <hudson.plugins.git.util.BuildData plugin="git@5.7.0">
+      <buildsByBranchName>
+        <entry>
+          <string>refs/remotes/origin/main</string>
+          <hudson.plugins.git.util.Build>
+            <marked plugin="git-client@6.4.0">
+              <sha1>ade52ebd17428944c66cc0f9d81a161dea2fbab9</sha1>
+              <branches class="list">
+                <hudson.plugins.git.Branch>
+                  <sha1 reference="../../../sha1"/>
+                  <name>refs/remotes/origin/main</name>
+                </hudson.plugins.git.Branch>
+              </branches>
+            </marked>
+            <revision reference="../marked"/>
+            <hudsonBuildNumber>9</hudsonBuildNumber>
+          </hudson.plugins.git.util.Build>
+        </entry>
+      </buildsByBranchName>
+      <lastBuild reference="../buildsByBranchName/entry/hudson.plugins.git.util.Build"/>
+      <remoteUrls>
+        <string>https://github.com/Elink69/prf_beadando.git</string>
+      </remoteUrls>
+    </hudson.plugins.git.util.BuildData>
+    <org.jenkinsci.plugins.workflow.steps.scm.MultiSCMRevisionState plugin="workflow-scm-step@452.vdf1ca_c8d3a_87">
+      <revisionStates>
+        <entry>
+          <string>git https://github.com/Elink69/prf_beadando.git</string>
+          <hudson.scm.SCMRevisionState_-None/>
+        </entry>
+      </revisionStates>
+    </org.jenkinsci.plugins.workflow.steps.scm.MultiSCMRevisionState>
+    <jenkins.metrics.impl.SubTaskTimeInQueueAction plugin="metrics@4.2.33-484.v2fcd689980d1">
+      <queuingDurationMillis>38</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>33</buildableDurationMillis>
+      <waitingDurationMillis>0</waitingDurationMillis>
+      <executingDurationMillis>11094</executingDurationMillis>
+      <workUnitCount>1</workUnitCount>
+    </jenkins.metrics.impl.SubTaskTimeInQueueAction>
+    <jenkins.metrics.impl.SubTaskTimeInQueueAction plugin="metrics@4.2.33-484.v2fcd689980d1">
+      <queuingDurationMillis>17</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>16</buildableDurationMillis>
+      <waitingDurationMillis>0</waitingDurationMillis>
+      <executingDurationMillis>80542</executingDurationMillis>
+      <workUnitCount>1</workUnitCount>
+    </jenkins.metrics.impl.SubTaskTimeInQueueAction>
+    <jenkins.metrics.impl.SubTaskTimeInQueueAction plugin="metrics@4.2.33-484.v2fcd689980d1">
+      <queuingDurationMillis>20</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>16</buildableDurationMillis>
+      <waitingDurationMillis>2</waitingDurationMillis>
+      <executingDurationMillis>38111</executingDurationMillis>
+      <workUnitCount>1</workUnitCount>
+    </jenkins.metrics.impl.SubTaskTimeInQueueAction>
+    <jenkins.metrics.impl.SubTaskTimeInQueueAction plugin="metrics@4.2.33-484.v2fcd689980d1">
+      <queuingDurationMillis>16</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>15</buildableDurationMillis>
+      <waitingDurationMillis>0</waitingDurationMillis>
+      <executingDurationMillis>32379</executingDurationMillis>
+      <workUnitCount>1</workUnitCount>
+    </jenkins.metrics.impl.SubTaskTimeInQueueAction>
+    <hudson.tasks.Fingerprinter_-FingerprintAction>
+      <record>
+        <entry>
+          <string>app/server/build/application/services/user.service.js</string>
+          <string>e0864d0554274f30516f8412e151982e</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/main.server.mjs</string>
+          <string>2fda88b15048039690bbff9ef72bbb49</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-PWWHONUL.js</string>
+          <string>6405b5303cc99f4330f9e0c14a2bb430</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-EU6ZTCF4.js</string>
+          <string>b62205724f6cf70de113c3875b7d646e</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/login/index.html</string>
+          <string>7b12f0b86628d1bc8c6969e85fbb16f6</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-S6KH3LOX.mjs</string>
+          <string>9b5d502b3f557dfd94d4cb479be42f48</string>
+        </entry>
+        <entry>
+          <string>app/server/build/application/services/course.service.js</string>
+          <string>f696027f5555cfceb31debd47a8718dd</string>
+        </entry>
+        <entry>
+          <string>app/server/build/server.js</string>
+          <string>3e47467570fd4217e4f209810c6c95ad</string>
+        </entry>
+        <entry>
+          <string>app/server/build/application/dtos/userCreationDto.js</string>
+          <string>a1d8127ee27b38722dde5b32555c251e</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/index.csr.html</string>
+          <string>e45e83afccf650103b7c906de33dbd1f</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-MA67W5AD.js</string>
+          <string>073a23c9b831ea3321a0b399da5f5f87</string>
+        </entry>
+        <entry>
+          <string>app/server/build/application/controllers/pickCourse.controller.js</string>
+          <string>c4f37794349fa84d3fa8301683b11446</string>
+        </entry>
+        <entry>
+          <string>app/server/build/application/dtos/courseCreationDto.js</string>
+          <string>ff0b6b66f7da6842a0b28ae574ec3526</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-7K27U5ZC.mjs</string>
+          <string>5c73b917eddab98e5d986ad28901d2d1</string>
+        </entry>
+        <entry>
+          <string>app/server/build/domain/entities/pickedCourse.js</string>
+          <string>15b40572eafbd5127f0d0406be8f59a1</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/assets-chunks/index_server_html.mjs</string>
+          <string>01fcfbf7e0dc59539e05b0b023f93841</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-ZVN4XW24.mjs</string>
+          <string>3bcf7e711a5d002ffde67078e94bfc64</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-OUKLZLOL.js</string>
+          <string>de9ca88ed57aa8c8d61a97c0e4eef009</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/home/index.html</string>
+          <string>ca11936c87b2f5f9e928e47047b91717</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/favicon.ico</string>
+          <string>05bcfe9a02b93e1c5a5da14bfda8c41f</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-7A6EV3D3.mjs</string>
+          <string>03032aa640cbb0acd8e79f8a2dbad92a</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-CCNEVYGC.js</string>
+          <string>95127d4f394dad85e1c46ab85daddcf2</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/users/index.html</string>
+          <string>afbf3ae26693f9a6548a334b08c44cc9</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-FE3ZEMPP.mjs</string>
+          <string>b7fd9e25bb3116d0083028bcb94976de</string>
+        </entry>
+        <entry>
+          <string>app/server/build/domain/enums/userRoles.js</string>
+          <string>43e445a9601b22c8e0b025e1772b8f04</string>
+        </entry>
+        <entry>
+          <string>app/server/build/domain/entities/user.js</string>
+          <string>e11bf994f19bec0e34b30539ede64b20</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-RXIVOJD3.mjs</string>
+          <string>73b4ba9ab6a054387df299578306d0b7</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-4HUPT3QO.mjs</string>
+          <string>19052c4a7d71a200158ed5e5d9d77fc9</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/register/index.html</string>
+          <string>76923e6c29043dce0a231571318a9fcd</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-4XU7HWWW.mjs</string>
+          <string>9f867f913ac25db6395eac1a7c8772d6</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-F2UJEJ3T.mjs</string>
+          <string>8c1611b26b526a23e967c7cea1edf5d1</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-624A7CCW.js</string>
+          <string>25980d75546dd901b80b46424f3ae4f1</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-42NDGMNJ.js</string>
+          <string>2e359da8f447c8db0d109f5ec76151d2</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-L5NDOUXZ.mjs</string>
+          <string>02c1516f1e10b4d957226fccc68149e4</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/index.server.html</string>
+          <string>69d651514dd81a71f525a3b922245350</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-JRXPBAKO.js</string>
+          <string>ecf2a1c31885de62d490911051584314</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/main-YSG37GNC.js</string>
+          <string>757d26707d30a74c42d2e8dc07c12732</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/prerendered-routes.json</string>
+          <string>a6c3904278cb4a3804deaf38c7db353c</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/assets-chunks/styles-PFJRHJWP_css.mjs</string>
+          <string>f70f17da570c276c15c318448a1f5c76</string>
+        </entry>
+        <entry>
+          <string>app/server/build/domain/entities/classroom.js</string>
+          <string>93c9184865b76ea8917cffea7bc881c6</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-AR2EM2WV.mjs</string>
+          <string>e32913722f4108b13f530e57ef30085c</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/polyfills.server.mjs</string>
+          <string>86444347c3e7a804153a060656dc6a80</string>
+        </entry>
+        <entry>
+          <string>app/server/build/application/services/pickCourse.service.js</string>
+          <string>396fd999401844dd195bd20957de4871</string>
+        </entry>
+        <entry>
+          <string>app/server/build/application/dtos/courseModifyDto.js</string>
+          <string>918921e2f530d8ed585f81a8021d5faa</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-U6NW7K6H.js</string>
+          <string>4325748b1a7331e7b9384aad6b6332d8</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/polyfills-FFHMD2TL.js</string>
+          <string>feb8fabaa54a01a42a5d3785369cea71</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-F7S2E7WL.js</string>
+          <string>2ba280b9763f5e0f9d0625091af8db56</string>
+        </entry>
+        <entry>
+          <string>app/server/build/application/auth/auth.js</string>
+          <string>8fa2fa5a9d62775bc28ebced4648dbe8</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-JBEZ2MOZ.mjs</string>
+          <string>f2217e53d3f3a59dc823f8f2292ddad5</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-UENCSKWL.js</string>
+          <string>853e3cbafa36f80f9799d5a45d51e05a</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-KL2QFS2E.js</string>
+          <string>ac1081de44525797e73d55c28479e59b</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/server.mjs</string>
+          <string>97b6c43d4924031815e0b58b3ddde464</string>
+        </entry>
+        <entry>
+          <string>app/server/build/application/dtos/userModifyDto.js</string>
+          <string>0dd6baae596c07ccffb56b25408e33a7</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/styles-PFJRHJWP.css</string>
+          <string>f20726e81cac2d4771f7d82267750745</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/assets-chunks/index_csr_html.mjs</string>
+          <string>b1b3dfbe89b4482d4cc10bdbd853f082</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-EU2PQC7E.mjs</string>
+          <string>47a8f26bc783bde0137af6fef341376b</string>
+        </entry>
+        <entry>
+          <string>app/server/build/application/controllers/course.controller.js</string>
+          <string>aea4224980b55183e3d0cec3330c32ca</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/angular-app-manifest.mjs</string>
+          <string>30f34c4803b65f2068b2112130f458ae</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-CGAWOWLZ.mjs</string>
+          <string>1f78b33c0f1e7ce4b63bae3d1a80baf1</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-J2WM3DB5.js</string>
+          <string>c3cf8fc49d97633eb85dfaa293b01e10</string>
+        </entry>
+        <entry>
+          <string>app/server/build/application/dtos/courseDetailsDto.js</string>
+          <string>148a8f89f06ee9ffee45084760137fb3</string>
+        </entry>
+        <entry>
+          <string>app/server/build/domain/enums/dbCollections.js</string>
+          <string>2cc45d9c67da8a672ee59bdfb950c0c5</string>
+        </entry>
+        <entry>
+          <string>app/server/build/domain/entities/course.js</string>
+          <string>d1479e73e4d8932db3cc0425f1b5c59d</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-LSISUUOB.mjs</string>
+          <string>c759d87faaf1796b1701b5875a28c3ad</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/angular-app-engine-manifest.mjs</string>
+          <string>656f85136360e985e96aee7a59484200</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-L2KFZZTM.mjs</string>
+          <string>1a774abe1ba43ff687268866d0b56753</string>
+        </entry>
+        <entry>
+          <string>app/server/build/application/controllers/user.controller.js</string>
+          <string>40629d678248f73e0115bdc8962455b4</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/courses/index.html</string>
+          <string>3fd741143f072317597469559db526e9</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-VZS3TRPB.mjs</string>
+          <string>e69d3e35efcd5a3b147a2bc84970c2f4</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-BB7EBA3N.js</string>
+          <string>748ad46fce93646c81ab4466a947206b</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/server/chunk-APRIWQJS.mjs</string>
+          <string>d9b897a8cbc242b5198c98eae9f743ec</string>
+        </entry>
+        <entry>
+          <string>app/server/build/domain/entities/classroomCourse.js</string>
+          <string>98f42dd814afc56f81d92e0aecc688d4</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/browser/chunk-BTI5GLDS.js</string>
+          <string>383be50236d56468bb3b390443aa59a9</string>
+        </entry>
+        <entry>
+          <string>app/server/build/startup.js</string>
+          <string>7ce104a966254c82801c178422ef44da</string>
+        </entry>
+        <entry>
+          <string>app/server/build/application/dtos/userDetailsDto.js</string>
+          <string>ee8ef9630cb1c08e07d96688ae988c21</string>
+        </entry>
+        <entry>
+          <string>app/client/dist/client/3rdpartylicenses.txt</string>
+          <string>fd3bd3d8d1b500dd789aaf0d24c2154c</string>
+        </entry>
+      </record>
+    </hudson.tasks.Fingerprinter_-FingerprintAction>
+    <jenkins.metrics.impl.SubTaskTimeInQueueAction plugin="metrics@4.2.33-484.v2fcd689980d1">
+      <queuingDurationMillis>17</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>16</buildableDurationMillis>
+      <waitingDurationMillis>0</waitingDurationMillis>
+      <executingDurationMillis>4377</executingDurationMillis>
+      <workUnitCount>1</workUnitCount>
+    </jenkins.metrics.impl.SubTaskTimeInQueueAction>
+    <jenkins.metrics.impl.SubTaskTimeInQueueAction plugin="metrics@4.2.33-484.v2fcd689980d1">
+      <queuingDurationMillis>21</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>19</buildableDurationMillis>
+      <waitingDurationMillis>0</waitingDurationMillis>
+      <executingDurationMillis>117176</executingDurationMillis>
+      <workUnitCount>1</workUnitCount>
+    </jenkins.metrics.impl.SubTaskTimeInQueueAction>
+    <jenkins.metrics.impl.SubTaskTimeInQueueAction plugin="metrics@4.2.33-484.v2fcd689980d1">
+      <queuingDurationMillis>17</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>16</buildableDurationMillis>
+      <waitingDurationMillis>0</waitingDurationMillis>
+      <executingDurationMillis>6163</executingDurationMillis>
+      <workUnitCount>1</workUnitCount>
+    </jenkins.metrics.impl.SubTaskTimeInQueueAction>
+    <jenkins.metrics.impl.SubTaskTimeInQueueAction plugin="metrics@4.2.33-484.v2fcd689980d1">
+      <queuingDurationMillis>18</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>17</buildableDurationMillis>
+      <waitingDurationMillis>0</waitingDurationMillis>
+      <executingDurationMillis>66569</executingDurationMillis>
+      <workUnitCount>1</workUnitCount>
+    </jenkins.metrics.impl.SubTaskTimeInQueueAction>
+    <jenkins.metrics.impl.SubTaskTimeInQueueAction plugin="metrics@4.2.33-484.v2fcd689980d1">
+      <queuingDurationMillis>21</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>20</buildableDurationMillis>
+      <waitingDurationMillis>0</waitingDurationMillis>
+      <executingDurationMillis>8243</executingDurationMillis>
+      <workUnitCount>1</workUnitCount>
+    </jenkins.metrics.impl.SubTaskTimeInQueueAction>
+    <jenkins.model.InterruptedBuildAction>
+      <causes>
+        <jenkins.model.CauseOfInterruption_-UserInterruption>
+          <user>admin</user>
+        </jenkins.model.CauseOfInterruption_-UserInterruption>
+      </causes>
+    </jenkins.model.InterruptedBuildAction>
+    <jenkins.metrics.impl.SubTaskTimeInQueueAction plugin="metrics@4.2.33-484.v2fcd689980d1">
+      <queuingDurationMillis>26982</queuingDurationMillis>
+      <blockedDurationMillis>0</blockedDurationMillis>
+      <buildableDurationMillis>26976</buildableDurationMillis>
+      <waitingDurationMillis>0</waitingDurationMillis>
+      <executingDurationMillis>651129</executingDurationMillis>
+      <workUnitCount>1</workUnitCount>
+    </jenkins.metrics.impl.SubTaskTimeInQueueAction>
+  </actions>
+  <queueId>49</queueId>
+  <timestamp>1761249328870</timestamp>
+  <startTime>1761249328909</startTime>
+  <result>ABORTED</result>
+  <duration>1060993</duration>
+  <charset>UTF-8</charset>
+  <keepLog>false</keepLog>
+  <execution class="org.jenkinsci.plugins.workflow.cps.CpsFlowExecution">
+    <result>ABORTED</result>
+    <script>pipeline {
+    agent none
+    
+    tools {
+        nodejs &quot;NodeJS20&quot;
+    }
+    
+    environment {
+        GITHUB_REPO = &quot;https://github.com/Elink69/prf_beadando.git&quot;
+        BRANCH = &quot;main&quot;
+    }
+    
+    stages {
+        stage(&apos;Checkout&apos;){
+            agent any
+            steps {
+                git branch: env.BRANCH, url: env.GITHUB_REPO
+            }
+        }
+        
+        stage(&apos;Install Server Dependencies&apos;){
+            agent any
+            steps {
+                sh &quot;cd app/server &amp;&amp; npm ci&quot;
+            }
+        }
+        
+        stage(&apos;Test Server&apos;){
+            agent any
+            steps {
+                sh &quot;cd app/server &amp;&amp; npm run test&quot;
+            }
+        }
+        
+        stage(&apos;Build Server&apos;){
+            agent any
+            steps {
+                sh &quot;cd app/server &amp;&amp; npm run build&quot;
+            }
+        }
+        
+        stage(&apos;Archive Server Artifacts&apos;){
+            agent any
+            steps {
+                archiveArtifacts artifacts: &apos;app/server/build/**/*&apos;, fingerprint: true
+            }
+        }
+        
+        stage(&apos;Install Client Dependencies&apos;){
+            agent any
+            steps {
+                sh &quot;cd app/client &amp;&amp; npm ci&quot;
+            }
+        }
+        
+        stage(&apos;Test Client&apos;){
+            agent any
+            steps {
+                sh &quot;cd app/client &amp;&amp; npm run test&quot;
+            }
+        }
+        
+        stage(&apos;Build Client&apos;){
+            agent any
+            steps {
+                sh &quot;cd app/client &amp;&amp; npm run build&quot;
+            }
+        }
+        
+        stage(&apos;Archive Client Artifacts&apos;){
+            agent any
+            steps {
+                archiveArtifacts artifacts: &apos;app/client/dist/**/*&apos;, fingerprint: true
+            }
+        }
+        
+        stage(&apos;Run Host PowerShell Script&apos;) {
+            agent { label &quot;windows-agent&quot; }
+            steps {
+                powershell &quot;&quot;&quot;
+                    &amp; &apos;C:\\Users\\buszo\\Desktop\\prf_beadando\\devops\\scripts\\launch-app.ps1&apos; -TerraformDir &apos;C:\\Users\\buszo\\Desktop\\prf_beadando\\app\\infra&apos;
+                &quot;&quot;&quot;
+            }
+        }
+    }
+}</script>
+    <loadedScripts class="linked-hash-map"/>
+    <durabilityHint>MAX_SURVIVABILITY</durabilityHint>
+    <timings class="map">
+      <entry>
+        <string>flowNode</string>
+        <long>5173390545</long>
+      </entry>
+      <entry>
+        <string>classLoad</string>
+        <long>3086834185</long>
+      </entry>
+      <entry>
+        <string>runQueue</string>
+        <long>69447458522</long>
+      </entry>
+      <entry>
+        <string>run</string>
+        <long>47608045833</long>
+      </entry>
+      <entry>
+        <string>parse</string>
+        <long>2205822671</long>
+      </entry>
+      <entry>
+        <string>saveProgram</string>
+        <long>29318751460</long>
+      </entry>
+    </timings>
+    <internalCalls class="sorted-set"/>
+    <sandbox>true</sandbox>
+    <iota>157</iota>
+    <head>1:157</head>
+    <done>true</done>
+    <resumeBlocked>false</resumeBlocked>
+    <storageDir>workflow-completed</storageDir>
+  </execution>
+  <completed>true</completed>
+  <checkouts class="hudson.util.PersistedList">
+    <org.jenkinsci.plugins.workflow.job.WorkflowRun_-SCMCheckout>
+      <scm class="hudson.plugins.git.GitSCM" plugin="git@5.7.0">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+          <hudson.plugins.git.UserRemoteConfig>
+            <url>https://github.com/Elink69/prf_beadando.git</url>
+          </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches class="singleton-list">
+          <hudson.plugins.git.BranchSpec>
+            <name>*/main</name>
+          </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="empty-list"/>
+        <extensions>
+          <hudson.plugins.git.extensions.impl.LocalBranch>
+            <localBranch>main</localBranch>
+          </hudson.plugins.git.extensions.impl.LocalBranch>
+        </extensions>
+      </scm>
+      <node></node>
+      <workspace>/var/jenkins_home/workspace/prf-project</workspace>
+      <changelogFile>/var/jenkins_home/jobs/prf-project/builds/9/changelog16107229105181082946.xml</changelogFile>
+      <pollingBaseline class="hudson.scm.SCMRevisionState$None" reference="../../../actions/org.jenkinsci.plugins.workflow.steps.scm.MultiSCMRevisionState/revisionStates/entry/hudson.scm.SCMRevisionState_-None"/>
+    </org.jenkinsci.plugins.workflow.job.WorkflowRun_-SCMCheckout>
+  </checkouts>
+</flow-build>

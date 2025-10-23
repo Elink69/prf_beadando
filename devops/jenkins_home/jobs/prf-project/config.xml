@@ -42,9 +42,6 @@
         
         stage(&apos;Test Server&apos;){
             agent any
-            environment {
-                DB_URI = &apos;placeholder&apos;
-            }
             steps {
                 sh &quot;cd app/server &amp;&amp; npm run test&quot;
             }

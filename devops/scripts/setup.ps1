@@ -65,4 +65,7 @@ Write-Host "Registering Jenkins agent as a Windows service..." -ForegroundColor 
 $serviceCmd = "java -jar C:\jenkins\agent.jar -url $JenkinsMasterURL -secret $JenkinsSecret -name $AgentName -webSocket -workDir $WorkDir"
 Start-Process powershell -Verb RunAs -ArgumentList "$serviceCmd"
 Write-Host "Jenkins agent started." -ForegroundColor Green
-Write-Host "`n✅ Setup complete! Please restart your PowerShell session for PATH changes to take effect." -ForegroundColor Green
+
+minikube start --memory=8g --cpus=4
+Start-Process powershell -Verb RunAs -ArgumentList "minikube dashboard"
+Start-Process powershell -Verb RunAs -ArgumentList "minikube tunnel"
