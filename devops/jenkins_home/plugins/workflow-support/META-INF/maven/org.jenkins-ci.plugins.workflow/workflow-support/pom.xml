@@ -27,7 +27,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jenkins-ci.plugins.workflow</groupId>
   <artifactId>workflow-support</artifactId>
-  <version>989.va_20a_1a_57710a_</version>
+  <version>1004.veee3a_d67cdb_9</version>
   <packaging>hpi</packaging>
   <name>Pipeline: Supporting APIs</name>
   <description>The Jenkins Plugins Parent POM Project</description>
@@ -42,7 +42,7 @@
   <scm>
     <connection>scm:git:https://github.com/jenkinsci/workflow-support-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/workflow-support-plugin.git</developerConnection>
-    <tag>a20a1a57710a63556867ae01a4d04d9c1964f7cd</tag>
+    <tag>eee3ad67cdb9fb87e29ad66e0080da83a6502c7c</tag>
     <url>https://github.com/jenkinsci/workflow-support-plugin</url>
   </scm>
   <distributionManagement>

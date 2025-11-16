@@ -1,6 +1,6 @@
 $JenkinsMasterURL = "http://localhost:8080"
-$AgentName        = "windows-agent"
-$JenkinsSecret    = "5b4f54220e95a213e0f491e0eba458b8ea65e83b59624c77eddd7441875f81a5"
+$AgentName        = "local"
+$JenkinsSecret    = "8a5cf6f898283781f5a2eedec04cee9dc23ca9ba101959385036196b32fdf276 "
 $WorkDir          = "C:\jenkins"
 $ServiceName      = "JenkinsAgent"
 
@@ -65,6 +65,6 @@ $serviceCmd = "java -jar C:\jenkins\agent.jar -url $JenkinsMasterURL -secret $Je
 Start-Process powershell -Verb RunAs -ArgumentList "$serviceCmd"
 Write-Host "Jenkins agent started." -ForegroundColor Green
 
-minikube start --memory=8g --cpus=4
+minikube start --memory=4g --cpus=4
 Start-Process powershell -Verb RunAs -ArgumentList "minikube dashboard"
 Start-Process powershell -Verb RunAs -ArgumentList "minikube tunnel"

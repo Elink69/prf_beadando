@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>email-ext</artifactId>
-  <version>1925.v1598902b_58dd</version>
+  <version>1933.v45cec755423f</version>
   <packaging>hpi</packaging>
   <name>Email Extension Plugin</name>
   <description>Allows to configure every aspect of email notifications: when an email is sent, who should receive it and what the email says</description>
@@ -64,7 +64,7 @@
   <scm>
     <connection>scm:git:https://github.com/jenkinsci/email-ext-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/email-ext-plugin.git</developerConnection>
-    <tag>1598902b58ddfa69d5763b62db609f864f57e2d8</tag>
+    <tag>45cec755423fcd203c6dc643794e6da6b6d66fb9</tag>
     <url>https://github.com/jenkinsci/email-ext-plugin</url>
   </scm>
   <issueManagement>
@@ -116,7 +116,7 @@
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
       <artifactId>credentials</artifactId>
-      <version>1419.v2337d1ceceef</version>
+      <version>1447.v4cb_b_539b_5321</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -148,6 +148,7 @@
       <artifactId>matrix-project</artifactId>
       <version>849.v0cd64ed7e531</version>
       <scope>compile</scope>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.jenkins-ci.plugins</groupId>
@@ -211,7 +212,7 @@
       <plugin>
         <groupId>org.jenkins-ci.tools</groupId>
         <artifactId>maven-hpi-plugin</artifactId>
-        <version>3.66</version>
+        <version>3.1746.v2e9fe7dc4d95</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>

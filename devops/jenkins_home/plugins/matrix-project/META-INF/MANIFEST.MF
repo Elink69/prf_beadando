@@ -4,13 +4,13 @@ Build-Jdk-Spec: 17
 Specification-Title: Matrix Project Plugin
 Specification-Version: 0.0
 Implementation-Title: Matrix Project Plugin
-Implementation-Version: 858.vb_b_eb_9a_7ea_99e
+Implementation-Version: 870.v9db_fcfc2f45b_
 Group-Id: org.jenkins-ci.plugins
 Artifact-Id: matrix-project
 Short-Name: matrix-project
 Long-Name: Matrix Project Plugin
 Url: https://github.com/jenkinsci/matrix-project-plugin
-Plugin-Version: 858.vb_b_eb_9a_7ea_99e
+Plugin-Version: 870.v9db_fcfc2f45b_
 Hudson-Version: 2.492.3
 Jenkins-Version: 2.492.3
 Plugin-Dependencies: ionicons-api:88.va_4187cb_eddf1,junit:1335.v6b_a_a_
@@ -20,7 +20,7 @@ Plugin-License-Name: MIT License
 Plugin-License-Url: https://opensource.org/licenses/MIT
 Plugin-ScmConnection: scm:git:https://github.com/jenkinsci/matrix-projec
  t-plugin.git
-Plugin-ScmTag: bbeb9a7ea99e15d5b3642a1be11655fc6195397c
+Plugin-ScmTag: 9dbfcfc2f45bc5fb20f22d5a015891e0286adede
 Plugin-ScmUrl: https://github.com/jenkinsci/matrix-project-plugin
-Implementation-Build: bbeb9a7ea99e15d5b3642a1be11655fc6195397c
+Implementation-Build: 9dbfcfc2f45bc5fb20f22d5a015891e0286adede
 

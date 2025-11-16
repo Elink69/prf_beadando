@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>matrix-project</artifactId>
-  <version>858.vb_b_eb_9a_7ea_99e</version>
+  <version>870.v9db_fcfc2f45b_</version>
   <packaging>hpi</packaging>
   <name>Matrix Project Plugin</name>
   <description>Multi-configuration (matrix) project type.</description>
@@ -19,7 +19,7 @@
   <scm>
     <connection>scm:git:https://github.com/jenkinsci/matrix-project-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/matrix-project-plugin.git</developerConnection>
-    <tag>bbeb9a7ea99e15d5b3642a1be11655fc6195397c</tag>
+    <tag>9dbfcfc2f45bc5fb20f22d5a015891e0286adede</tag>
     <url>https://github.com/jenkinsci/matrix-project-plugin</url>
   </scm>
   <distributionManagement>

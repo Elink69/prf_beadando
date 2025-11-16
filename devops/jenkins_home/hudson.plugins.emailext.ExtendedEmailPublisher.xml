@@ -1,5 +1,5 @@
 <?xml version='1.1' encoding='UTF-8'?>
-<hudson.plugins.emailext.ExtendedEmailPublisherDescriptor plugin="email-ext@1925.v1598902b_58dd">
+<hudson.plugins.emailext.ExtendedEmailPublisherDescriptor plugin="email-ext@1933.v45cec755423f">
   <mailAccount>
     <smtpPort>25</smtpPort>
     <useSsl>false</useSsl>

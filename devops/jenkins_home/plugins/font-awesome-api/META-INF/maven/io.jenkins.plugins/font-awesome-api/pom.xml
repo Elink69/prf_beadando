@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.jenkins.plugins</groupId>
   <artifactId>font-awesome-api</artifactId>
-  <version>7.0.1-872.vb_679b_2c95492</version>
+  <version>7.1.0-882.v1dfb_771e3278</version>
   <packaging>hpi</packaging>
   <name>Font Awesome API Plugin</name>
   <description>Provides the free fonts of Font Awesome for Jenkins plugins.</description>
@@ -26,7 +26,7 @@
   <scm>
     <connection>scm:git:https://github.com/jenkinsci/font-awesome-api-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/font-awesome-api-plugin.git</developerConnection>
-    <tag>b679b2c95492539647af6cecba0596290adf2d84</tag>
+    <tag>1dfb771e3278c28a34692d131013151beaefc327</tag>
     <url>https://github.com/jenkinsci/font-awesome-api-plugin</url>
   </scm>
   <distributionManagement>
@@ -43,13 +43,13 @@
     <dependency>
       <groupId>io.jenkins.plugins</groupId>
       <artifactId>plugin-util-api</artifactId>
-      <version>6.1167.v022176c7e0ca_</version>
+      <version>6.1192.v30fe6e2837ff</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.jenkins.plugins</groupId>
       <artifactId>commons-lang3-api</artifactId>
-      <version>3.18.0-98.v3a_674c06072d</version>
+      <version>3.19.0-104.v12125f33a_255</version>
       <scope>compile</scope>
     </dependency>
     <dependency>

@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.jenkins.plugins</groupId>
   <artifactId>theme-manager</artifactId>
-  <version>319.v9193461f9671</version>
+  <version>327.v780d7096ec29</version>
   <packaging>hpi</packaging>
   <name>Theme Manager</name>
   <description>The Jenkins Plugins Parent POM Project</description>
@@ -19,7 +19,7 @@
   <scm>
     <connection>scm:git:https://github.com/jenkinsci/theme-manager-plugin</connection>
     <developerConnection>scm:git:https://github.com/jenkinsci/theme-manager-plugin</developerConnection>
-    <tag>9193461f967164a5374373d8378e253fc9f177c2</tag>
+    <tag>780d7096ec2929543ea31590216ee43a19afbf8b</tag>
     <url>https://github.com/jenkinsci/theme-manager-plugin</url>
   </scm>
   <distributionManagement>
@@ -69,7 +69,7 @@
       <plugin>
         <groupId>org.jenkins-ci.tools</groupId>
         <artifactId>maven-hpi-plugin</artifactId>
-        <version>3.66</version>
+        <version>3.1762.vd3ff902a_5b_c4</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>

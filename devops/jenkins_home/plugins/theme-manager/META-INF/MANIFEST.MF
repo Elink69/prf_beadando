@@ -1,16 +1,16 @@
 Manifest-Version: 1.0
-Created-By: Maven Archiver 3.6.3
+Created-By: Maven Archiver 3.6.4
 Build-Jdk-Spec: 17
 Specification-Title: Theme Manager
 Specification-Version: 0.0
 Implementation-Title: Theme Manager
-Implementation-Version: 319.v9193461f9671
+Implementation-Version: 327.v780d7096ec29
 Group-Id: io.jenkins.plugins
 Artifact-Id: theme-manager
 Short-Name: theme-manager
 Long-Name: Theme Manager
 Url: https://github.com/jenkinsci/theme-manager-plugin
-Plugin-Version: 319.v9193461f9671
+Plugin-Version: 327.v780d7096ec29
 Hudson-Version: 2.479.3
 Jenkins-Version: 2.479.3
 Plugin-Dependencies: ionicons-api:88.va_4187cb_eddf1,jackson2-api:2.18.3
@@ -20,7 +20,7 @@ Plugin-License-Name: MIT License
 Plugin-License-Url: https://opensource.org/licenses/MIT
 Plugin-ScmConnection: scm:git:https://github.com/jenkinsci/theme-manager
  -plugin
-Plugin-ScmTag: 9193461f967164a5374373d8378e253fc9f177c2
+Plugin-ScmTag: 780d7096ec2929543ea31590216ee43a19afbf8b
 Plugin-ScmUrl: https://github.com/jenkinsci/theme-manager-plugin
-Implementation-Build: 9193461f967164a5374373d8378e253fc9f177c2
+Implementation-Build: 780d7096ec2929543ea31590216ee43a19afbf8b
 

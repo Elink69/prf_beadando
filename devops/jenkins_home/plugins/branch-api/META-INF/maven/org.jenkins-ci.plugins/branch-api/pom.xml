@@ -27,7 +27,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jenkins-ci.plugins</groupId>
   <artifactId>branch-api</artifactId>
-  <version>2.1253.v6e7f7519f710</version>
+  <version>2.1259.v45c101731c76</version>
   <packaging>hpi</packaging>
   <name>Branch API Plugin</name>
   <description>This plugin provides an API for multiple branch based projects.</description>
@@ -49,7 +49,7 @@
   <scm>
     <connection>scm:git:https://github.com/jenkinsci/branch-api-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/branch-api-plugin.git</developerConnection>
-    <tag>6e7f7519f71071121a555f4a79de92b3ef6e54a3</tag>
+    <tag>45c101731c76221b1e61ad4caa23640116a4c69c</tag>
     <url>https://github.com/jenkinsci/branch-api-plugin</url>
   </scm>
   <distributionManagement>
@@ -117,7 +117,7 @@
       <plugin>
         <groupId>org.jenkins-ci.tools</groupId>
         <artifactId>maven-hpi-plugin</artifactId>
-        <version>3.66</version>
+        <version>3.1762.vd3ff902a_5b_c4</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>

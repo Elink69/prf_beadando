@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.jenkins.plugins</groupId>
   <artifactId>caffeine-api</artifactId>
-  <version>3.2.2-178.v353b_8428ed56</version>
+  <version>3.2.3-194.v31a_b_f7a_b_5a_81</version>
   <packaging>hpi</packaging>
   <name>Caffeine API Plugin</name>
   <description>Jenkins plugin that packages Caffeine for use by other plugins.</description>
@@ -19,7 +19,7 @@
   <scm>
     <connection>scm:git:https://github.com/jenkinsci/caffeine-api-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/caffeine-api-plugin.git</developerConnection>
-    <tag>353b8428ed56258a3d081177c34f967fdf7cd351</tag>
+    <tag>31abf7ab5a81d948fb7eda852b8666cc9b17c0a3</tag>
     <url>https://github.com/jenkinsci/caffeine-api-plugin/</url>
   </scm>
   <distributionManagement>
@@ -36,7 +36,7 @@
     <dependency>
       <groupId>com.github.ben-manes.caffeine</groupId>
       <artifactId>caffeine</artifactId>
-      <version>3.2.2</version>
+      <version>3.2.3</version>
       <scope>compile</scope>
       <exclusions>
         <exclusion>
@@ -73,7 +73,7 @@
       <plugin>
         <groupId>org.jenkins-ci.tools</groupId>
         <artifactId>maven-hpi-plugin</artifactId>
-        <version>3.66</version>
+        <version>3.1762.vd3ff902a_5b_c4</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>

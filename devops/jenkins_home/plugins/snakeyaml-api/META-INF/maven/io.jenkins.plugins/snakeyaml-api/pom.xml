@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.jenkins.plugins</groupId>
   <artifactId>snakeyaml-api</artifactId>
-  <version>2.3-125.v4d77857a_b_402</version>
+  <version>2.5-143.v93b_c004f89de</version>
   <packaging>hpi</packaging>
   <name>SnakeYAML API Plugin</name>
   <description>This plugin packages stock SnakeYAML library</description>
@@ -20,7 +20,7 @@
   <scm>
     <connection>scm:git:https://github.com/jenkinsci/snakeyaml-api-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:jenkinsci/snakeyaml-api-plugin.git</developerConnection>
-    <tag>4d77857ab4021851494dd852280103a345cce4a8</tag>
+    <tag>93bc004f89de03099383b008d9cc61224b16cca6</tag>
     <url>https://github.com/jenkinsci/snakeyaml-api-plugin</url>
   </scm>
   <distributionManagement>
@@ -37,7 +37,7 @@
     <dependency>
       <groupId>org.yaml</groupId>
       <artifactId>snakeyaml</artifactId>
-      <version>2.3</version>
+      <version>2.5</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -64,7 +64,7 @@
       <plugin>
         <groupId>org.jenkins-ci.tools</groupId>
         <artifactId>maven-hpi-plugin</artifactId>
-        <version>3.61</version>
+        <version>3.1762.vd3ff902a_5b_c4</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>

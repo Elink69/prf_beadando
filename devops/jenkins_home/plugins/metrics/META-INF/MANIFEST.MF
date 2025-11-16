@@ -4,14 +4,14 @@ Build-Jdk-Spec: 17
 Specification-Title: Metrics Plugin
 Specification-Version: 4.2
 Implementation-Title: Metrics Plugin
-Implementation-Version: 4.2.33-484.v2fcd689980d1
+Implementation-Version: 4.2.37-489.vb_6db_69b_ce753
 Plugin-Class: jenkins.metrics.api.Metrics
 Group-Id: org.jenkins-ci.plugins
 Artifact-Id: metrics
 Short-Name: metrics
 Long-Name: Metrics Plugin
 Url: https://github.com/jenkinsci/metrics-plugin
-Plugin-Version: 4.2.33-484.v2fcd689980d1
+Plugin-Version: 4.2.37-489.vb_6db_69b_ce753
 Hudson-Version: 2.504.1
 Jenkins-Version: 2.504.1
 Plugin-Dependencies: commons-lang3-api:3.18.0-98.v3a_674c06072d,ionicons
@@ -22,7 +22,7 @@ Plugin-License-Name: The MIT license
 Plugin-License-Url: https://opensource.org/licenses/MIT
 Plugin-ScmConnection: scm:git:https://github.com/jenkinsci/metrics-plugi
  n.git
-Plugin-ScmTag: 2fcd689980d10f3fb924ce9094b6b722a3f87533
+Plugin-ScmTag: b6db69bce75359a247d6ba49b323fa735df5741c
 Plugin-ScmUrl: https://github.com/jenkinsci/metrics-plugin
-Implementation-Build: 2fcd689980d10f3fb924ce9094b6b722a3f87533
+Implementation-Build: b6db69bce75359a247d6ba49b323fa735df5741c
 
