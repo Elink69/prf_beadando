@@ -89,7 +89,7 @@
             }
         }
         
-        stage(&apos;Run Host PowerShell Script&apos;) {
+        stage(&apos;Deploy&apos;) {
             agent { label &quot;local&quot; }
             steps {
                 powershell &quot;&quot;&quot;

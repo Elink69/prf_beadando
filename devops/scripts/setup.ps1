@@ -1,6 +1,6 @@
 $JenkinsMasterURL = "http://localhost:8080"
 $AgentName        = "local"
-$JenkinsSecret    = "8a5cf6f898283781f5a2eedec04cee9dc23ca9ba101959385036196b32fdf276 "
+$JenkinsSecret    = "989a3f69f2b26022729fe3051176fc9fff9db94d5ce86e0f9933c09ac4b1d721  "
 $WorkDir          = "C:\jenkins"
 $ServiceName      = "JenkinsAgent"
 
